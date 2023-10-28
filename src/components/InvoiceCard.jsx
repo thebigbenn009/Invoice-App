@@ -1,6 +1,6 @@
 import React from "react";
 
-const InvoiceCard = () => {
+const InvoiceCard = ({ id, paymentDue, clientName, price, name }) => {
   return (
     <article className="invoice-card">
       <p className="invoice-text-bold">#RT3080</p>
