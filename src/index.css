@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat:wght@400;600;700;800&family=Nunito+Sans:ital,wght@0,200;0,300;0,600;1,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat:wght@200;400;600;700;800&family=Nunito+Sans:ital,wght@0,200;0,300;0,600;1,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
 *,
 *::before,
 *::after {
@@ -127,4 +127,45 @@ select option :active {
 .invoice-container {
   width: 70%;
   margin-inline: auto;
+}
+.invoice-card {
+  background-color: var(--purple-1);
+  border-radius: 5px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.invoice-text-bold {
+  font-weight: bold;
+}
+.invoice-text-light {
+  font-weight: 400;
+  font-size: 1.3rem;
+  font-family: "Montserrat";
+}
+.name {
+  /* flex: 1.5;
+  justify-self: center; */
+}
+.invoice-status-container {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  background-color: rgba(51, 214, 159, 0.1);
+  border-radius: 5px;
+  gap: 1rem;
+  padding: 0.5rem 1.5rem;
+  color: var(--teal);
+}
+.dot {
+  height: 7px;
+  width: 7px;
+
+  border-radius: 50%;
+  background-color: var(--teal);
+}
+.invoice-status {
+  border-radius: 3px;
 }
