@@ -113,7 +113,8 @@ header {
   background-repeat: no-repeat;
   padding-right: 2rem;
   text-transform: capitalize;
-  /* color: var(--white); */
+  color: var(--white);
+  text-align: center;
 }
 .select option {
   background-color: var(--deep-blue);
