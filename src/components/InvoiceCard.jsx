@@ -1,17 +1,30 @@
 import React from "react";
 
-const InvoiceCard = ({ id, paymentDue, clientName, price, name }) => {
+const InvoiceCard = ({
+  id,
+  paymentDue,
+  clientName,
+  items,
+  status,
+  backgroundColor,
+  color,
+}) => {
   return (
     <article className="invoice-card">
-      <p className="invoice-text-bold">#RT3080</p>
-      <p className="invoice-text-light">Due 19 August 2023</p>
-      <p className="invoice-text-light name">Jensen Huang </p>
-      <p className="invoice-text-bold">£ 1,800.90</p>
-      <div className="invoice-status-container">
-        <span className="dot"></span>
-        <span className="invoice-status">paid</span>
+      <div className="invoice-text-bold id">
+        <span>{id}</span>
       </div>
-      <span>
+      <div className="invoice-text-light">Due {paymentDue}</div>
+      <div className="invoice-text-light name">{clientName}</div>
+      <div className="invoice-text-bold">$ {items[0].price}</div>
+      <div
+        className="invoice-status-container"
+        style={{ backgroundColor: backgroundColor, color: color }}
+      >
+        <span className="dot" style={{ backgroundColor: color }}></span>
+        <span className="invoice-status">{status}</span>
+      </div>
+      <span className="span-icon">
         <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M1 1l4 4-4 4"
