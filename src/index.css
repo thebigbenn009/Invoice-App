@@ -55,7 +55,7 @@ header {
   margin-bottom: 6rem;
 }
 .num {
-  display: block;
+  display: none;
 }
 .invoice {
   font-weight: bolder;
@@ -181,7 +181,7 @@ select option :active {
   border-radius: 3px;
 }
 /* MEDIA QUERIES  */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   html {
     font-size: 50%;
   }
@@ -209,11 +209,18 @@ select option :active {
     /* padding: 0; */
   }
   .invoice-card {
-    grid-template-columns: max-content max-content 15rem 1fr 1fr auto;
+    grid-template-columns:
+      max-content max-content 1fr 0.5fr
+      0.5fr auto;
     /* padding: 0.8rem; */
     margin-bottom: 2rem;
 
     gap: 1.5rem;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main-section {
+    /* padding: 0; */
   }
 }
 @media (max-width: 600px) {
