@@ -22,16 +22,19 @@ html {
   font-family: "Montserrat", sans-serif;
   font-family: "Nunito Sans", sans-serif;
   font-family: "Poppins", sans-serif;
+  /* background-color: var(--deep-blue); */
 }
 .app-container {
   font-size: 1.6rem;
   display: grid;
   grid-template-columns: auto 1fr;
-  max-width: 114rem;
+  height: 100vh;
+  /* max-width: 114rem;
   margin-top: 6rem;
-  margin-inline: auto;
+  margin-inline: auto; */
   color: var(--white);
 }
+
 .main-section {
   width: 100%;
   background-color: var(--deep-blue);
@@ -140,7 +143,7 @@ select option :active {
   padding: 1.5rem;
   display: grid;
   cursor: pointer;
-  grid-template-columns: max-content max-content 20rem 9rem 1fr auto;
+  grid-template-columns: max-content 0.4fr 0.8fr 0.4fr 0.4fr auto;
   place-items: center;
   gap: 2.5rem;
   width: 100%;
@@ -149,10 +152,12 @@ select option :active {
 
 .invoice-text-bold {
   font-weight: bold;
+  justify-self: start;
 }
 .invoice-text-light {
   font-weight: 400;
   font-size: 1.3rem;
+
   font-family: "Montserrat";
 }
 
@@ -231,6 +236,7 @@ select option :active {
 
   .invoice-card {
     grid-template-columns: repeat(2, 1fr);
+    justify-items: start;
   }
   .invoice-card > * {
     padding: 1rem;
