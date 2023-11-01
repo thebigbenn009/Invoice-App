@@ -15,7 +15,17 @@
   --primary-purple: #7c5dfa;
   --purple-1: #1e2139;
   --purple-2: #858bb2;
+  --purple-3: #252945;
 }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: capitalize;
+}
+
 html {
   font-size: 62.5%;
   font-family: "Lato", sans-serif;
@@ -44,6 +54,7 @@ html {
   /* margin-top: 6rem; */
   margin-inline: auto;
 }
+
 .sidebar {
   background-color: var(--purple-1);
   width: 6rem;
@@ -76,7 +87,7 @@ header {
   align-items: center;
 }
 
-.invoice-btn {
+.btn {
   /* padding: 1.5rem; */
   font-family: inherit;
   display: flex;
@@ -87,10 +98,21 @@ header {
   padding-left: 0.7rem;
   align-self: center;
   border-radius: 1000rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: transform 0.3s ease-in-out;
+}
+.btn:hover {
+  transform: translateY(-3px);
+}
+.btn:active {
+  transform: translateY(-1px);
+}
+.invoice-btn {
   color: var(--white);
   background-color: var(--primary-purple);
-  border: none;
-  text-transform: capitalize;
 }
 
 .btn-svg {
@@ -148,6 +170,11 @@ select option :active {
   gap: 2.5rem;
   width: 100%;
   margin-bottom: 1rem;
+  transition: transform 0.3s ease-in-out;
+}
+.invoice-card:hover {
+  transform: translateX(7px);
+  background-color: #252945;
 }
 
 .invoice-text-bold {
@@ -185,6 +212,89 @@ select option :active {
 }
 .invoice-status {
   border-radius: 3px;
+}
+/* NEW INVOICE */
+.invoice-section {
+  width: 100%;
+  background-color: var(--deep-blue);
+}
+.new-invoice {
+  width: 40%;
+  padding-inline: 3rem;
+  padding-block: 6rem;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  background-color: #1e2139;
+
+  /* border: solid 3px red; */
+}
+.form-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.form-2-col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+/* FORM */
+.invoice-input {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.invoice-input label {
+  margin-bottom: 2rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+.invoice-input input,
+.new-item-name input,
+select {
+  border-radius: 5px;
+  font-weight: 500;
+  padding: 1rem;
+  font-family: inherit;
+  font-size: 1.5rem;
+  width: 100%;
+  border-color: transparent;
+  outline: none;
+  background-color: var(--purple-3);
+  color: var(--white);
+}
+.form-control {
+  margin-bottom: 2rem;
+}
+.form-control h4 {
+  margin-bottom: 2rem;
+  color: var(--primary-purple);
+}
+.new-item {
+  width: 100%;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 5rem 0.5fr 0.5fr 5rem;
+  gap: 2rem;
+}
+
+.bin {
+  display: grid;
+  place-items: center;
+}
+
+.bin svg {
+  cursor: pointer;
+}
+
+.total {
+  background-color: var(--purple-3);
+  padding: 1rem;
+  text-align: center;
+}
+.btn-add {
+  width: 100%;
+  background-color: var(--purple-3);
+  color: var(--white);
 }
 /* MEDIA QUERIES  */
 @media (max-width: 1024px) {
