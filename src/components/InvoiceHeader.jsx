@@ -7,7 +7,7 @@ const InvoiceHeader = () => {
       <div className="invoice-info-1">
         <h2 className="invoice">invoices</h2>
         <p className="total-invoice">
-          <span className="total">there are 7 total</span>
+          <span className="">there are 7 total</span>
           <span className="num">7</span> invoices
         </p>
       </div>

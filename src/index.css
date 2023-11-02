@@ -298,7 +298,28 @@ select {
   background-color: var(--purple-3);
   color: var(--white);
 }
-/* MEDIA QUERIES  */
+.btn-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.btn-others {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+.btn-discard {
+  color: var(--primary-purple);
+  padding-inline: 1.5rem;
+}
+.btn-draft {
+  background-color: #373b53;
+  color: var(--white);
+}
+.btn-send {
+  background-color: var(--primary-purple);
+  color: var(--white);
+}
+/* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
   html {
     font-size: 50%;

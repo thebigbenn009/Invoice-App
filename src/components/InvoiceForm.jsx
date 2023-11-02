@@ -51,6 +51,15 @@ const InvoiceForm = ({ labelInfo, inputType }) => {
             Add New Item <strong>+</strong>
           </button>
         </div>
+        <div className="btn-container">
+          <div className="btn-discard">
+            <button className="btn btn-discard">Discard</button>
+          </div>
+          <div className="btn-others">
+            <button className="btn btn-draft">Save as Draft</button>
+            <button className="btn btn-send">Save & send</button>
+          </div>
+        </div>
       </div>
     </form>
   );
