@@ -3,7 +3,7 @@ import React from "react";
 const AddNewItem = () => {
   return (
     <div className="new-item">
-      <div className="new-item-name">
+      <div className="new-item-name item-name">
         <p>Item Name</p>
         <input type="text" />
       </div>
@@ -11,11 +11,11 @@ const AddNewItem = () => {
         <p>Qty.</p>
         <input type="number" />
       </div>
-      <div className="new-item-name">
+      <div className="new-item-name item-price">
         <p>Price</p>
         <input type="number" />
       </div>
-      <div className="new-item-name ">
+      <div className="new-item-name item-total ">
         <p>Total</p>
         <div className="total">156</div>
       </div>

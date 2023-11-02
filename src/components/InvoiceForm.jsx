@@ -1,33 +1,47 @@
 import React, { useState } from "react";
 import FormInput from "./FormInput";
 import AddNewItem from "./AddNewItem";
+import { useGlobalContext } from "../Context";
 
-const InvoiceForm = ({ labelInfo, inputType }) => {
+const InvoiceForm = ({ inputType }) => {
+  const { handleSubmitBtn } = useGlobalContext();
   return (
     <form>
       <div className="form-control">
         <h4>bill from</h4>
-        <FormInput labelInfo="Street Address" />
+        <FormInput labelInfo="Street Address" name="billerAddress" />
         <div className="form-3-col">
-          <FormInput labelInfo="City" inputType={inputType} />
-          <FormInput labelInfo="Post Code" />
-          <FormInput labelInfo="Country" />
+          <FormInput name="billerCity" labelInfo="City" inputType={inputType} />
+          <FormInput name="billerPostCode" labelInfo="Post Code" />
+          <FormInput name="billerCountry" labelInfo="Country" />
         </div>
       </div>
       <div className="form-control">
         <h4>bill to</h4>
-        <FormInput labelInfo="Client’s Name" />
-        <FormInput labelInfo="Client’s Email" inputType="email" />
-        <FormInput labelInfo="Street Address" inputType={inputType} />
+        <FormInput name="clientName" labelInfo="Client’s Name" />
+        <FormInput
+          name="clientEmail"
+          labelInfo="Client’s Email"
+          inputType="email"
+        />
+        <FormInput
+          name="clientAddress"
+          labelInfo="Street Address"
+          inputType={inputType}
+        />
         <div className="form-3-col">
-          <FormInput labelInfo="City" inputType={inputType} />
-          <FormInput labelInfo="Post Code" />
-          <FormInput labelInfo="Country" />
+          <FormInput name="clientCity" labelInfo="City" inputType={inputType} />
+          <FormInput name="clientPostCode" labelInfo="Post Code" />
+          <FormInput name="clientCountry" labelInfo="Country" />
         </div>
       </div>
       <div className="form-control">
         <div className="form-2-col">
-          <FormInput labelInfo="Invoice Date" inputType="date" />
+          <FormInput
+            name="invoiceDate"
+            labelInfo="Invoice Date"
+            inputType="date"
+          />
           <div className="invoice-input">
             <label htmlFor="payment terms">payment terms</label>
             <select name="payment-terms" id="">
@@ -40,14 +54,22 @@ const InvoiceForm = ({ labelInfo, inputType }) => {
             {/* <FormInput labelInfo="payment terms" inputType="date" /> */}
           </div>
         </div>
-        <FormInput labelInfo="Project Description" inputType={inputType} />
+        <FormInput
+          name="projectDescription"
+          labelInfo="Project Description"
+          inputType={inputType}
+        />
         <div className="form-control">
           <h4>Item List</h4>
           <div className="new-item-container">
             <AddNewItem />
             <AddNewItem />
           </div>
-          <button type="button" className="btn btn-add">
+          <button
+            type="submit"
+            onClick={handleSubmitBtn}
+            className="btn btn-add"
+          >
             Add New Item <strong>+</strong>
           </button>
         </div>
