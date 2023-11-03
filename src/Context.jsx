@@ -36,13 +36,42 @@ const AppProvider = ({ children }) => {
     ],
     total: "",
   });
-  const handleInputChange = (e) => {
+  const handleItemChange = (e, itemIndex) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+
+    setFormData((prevForm) => {
+      const updatedItems = [...prevForm.items];
+      updatedItems[itemIndex] = {
+        ...updatedItems[itemIndex],
+        [name]: value,
+      };
+
+      return {
+        ...prevForm,
+        items: updatedItems,
+      };
     });
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
+  // const handleItemChange = (e, itemIndex) => {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+  //   setFormData((prevForm) => {
+  //     const updatedItems = [...prevForm.items];
+  //     updatedItems[itemIndex] = {
+  //       ...updatedItems[itemIndex],
+  //       [name]: value,
+  //     };
+  //   });
+  // };
   const handleAddNewItem = (e) => {
     e.preventDefault();
     const newItem = {
@@ -71,6 +100,7 @@ const AppProvider = ({ children }) => {
         handleInputChange,
         handleSubmitBtn,
         handleAddNewItem,
+        handleItemChange,
       }}
     >
       {children}
