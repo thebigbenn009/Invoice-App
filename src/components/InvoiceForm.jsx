@@ -81,16 +81,7 @@ const InvoiceForm = ({ inputType }) => {
           <h4>Item List</h4>
           <div className="new-item-container">
             {items.map((item, index) => {
-              const { name, quantity, price } = item;
-              return (
-                <AddNewItem
-                  key={index}
-                  // itemIndex={index}
-                  // name={name}
-                  // quantity={quantity}
-                  // price={price}
-                />
-              );
+              return <AddNewItem key={index} />;
             })}
           </div>
           <button

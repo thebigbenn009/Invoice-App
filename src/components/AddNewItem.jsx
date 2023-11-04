@@ -1,11 +1,9 @@
 import React from "react";
 import { useGlobalContext } from "../Context";
 
-const AddNewItem = ({ itemIndex, name, quantity, price }) => {
-  const { handleItemChange, formData } = useGlobalContext();
-  const { items } = formData;
-  const item = items[0];
-
+const AddNewItem = ({ itemIndex }) => {
+  const { handleItemChange, itemInputs } = useGlobalContext();
+  const { name, quantity, price } = itemInputs;
   return (
     <div className="new-item">
       <div className="new-item-name item-name">
@@ -13,8 +11,8 @@ const AddNewItem = ({ itemIndex, name, quantity, price }) => {
         <input
           type="text"
           name="name"
-          value={item[name]}
-          onChange={(e) => handleItemChange(e, itemIndex)}
+          value={name}
+          onChange={handleItemChange}
         />
       </div>
       <div className="new-item-name quantity">
@@ -22,16 +20,17 @@ const AddNewItem = ({ itemIndex, name, quantity, price }) => {
         <input
           type="number"
           name="quantity"
-          value={item.quantity}
-          // name={`items[${itemIndex}].quantity`}
-          // value={item[quantity]}
-          onChange={(e) => handleItemChange(e, itemIndex)}
+          value={quantity}
+          onChange={handleItemChange}
         />
       </div>
       <div className="new-item-name item-price">
         <p>Price</p>
         <input
           type="number"
+          name="price"
+          value={price}
+          onChange={handleItemChange}
           // name={`items[${itemIndex}].price`}
           // value={item[price]}
           // onChange={(e) => handleInputChange(e, itemIndex)}
