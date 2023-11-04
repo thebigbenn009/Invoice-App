@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { jsonData } from "./data";
 const AppContext = createContext();
 
@@ -6,27 +6,74 @@ const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState(jsonData);
 
   const [formData, setFormData] = useState({
-    billerAddress: "",
-    billerCity: "",
-    billerPostCode: "",
-    billerCountry: "",
+    id: "",
+    createdAt: "",
+    paymentDue: "",
+    description: "",
+    paymentTerms: "",
     clientName: "",
     clientEmail: "",
-    clientAddress: "",
-    clientCity: "",
-    clientPostCode: "",
-    clientCountry: "",
-    invoiceDate: "",
-    paymentTerms: "",
-    projectDescription: "",
+    status: "",
+    senderAddress: {
+      street: "",
+      city: "",
+      postCode: "",
+      country: "",
+    },
+    clientAddress: {
+      street: "",
+      city: "",
+      postCode: "",
+      country: "",
+    },
+    items: [
+      {
+        name: "",
+        quantity: "",
+        price: "",
+        total: "",
+      },
+    ],
+    total: "",
   });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevForm) => ({
+      ...prevForm,
       [name]: value,
+    }));
+  };
+  const [itemInputs, setItemInputs] = useState({
+    name: "",
+    quantity: "",
+    price: "",
+    total: "",
+  });
+  const handleItemChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setItemInputs((prevInput) => ({
+      ...prevInput,
+      [name]: value,
+    }));
+  };
+
+  const handleAddNewItem = (e) => {
+    e.preventDefault();
+    const newItem = { name: "", quantity: "", price: "", total: "" };
+    setFormData((prevForm) => ({
+      ...prevForm,
+      items: [...prevForm.items, newItem],
+    }));
+    setItemInputs({
+      name: "",
+      quantity: "",
+      price: "",
+      total: "",
     });
   };
+
   const handleSubmitBtn = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -40,6 +87,10 @@ const AppProvider = ({ children }) => {
         setFormData,
         handleInputChange,
         handleSubmitBtn,
+        handleAddNewItem,
+        handleItemChange,
+        itemInputs,
+        setItemInputs,
       }}
     >
       {children}

@@ -4,16 +4,30 @@ import AddNewItem from "./AddNewItem";
 import { useGlobalContext } from "../Context";
 
 const InvoiceForm = ({ inputType }) => {
-  const { handleSubmitBtn } = useGlobalContext();
+  const { handleSubmitBtn, formData, handleAddNewItem } = useGlobalContext();
+  const {
+    senderAddress,
+    clientAddress,
+    clientName,
+    clientEmail,
+    paymentTerms,
+    description,
+    items,
+  } = formData;
   return (
     <form>
       <div className="form-control">
         <h4>bill from</h4>
-        <FormInput labelInfo="Street Address" name="billerAddress" />
+        <FormInput labelInfo="Street Address" name="senderAddress.street" />
+
         <div className="form-3-col">
-          <FormInput name="billerCity" labelInfo="City" inputType={inputType} />
-          <FormInput name="billerPostCode" labelInfo="Post Code" />
-          <FormInput name="billerCountry" labelInfo="Country" />
+          <FormInput
+            name="senderAddress.city"
+            labelInfo="City"
+            inputType={inputType}
+          />
+          <FormInput name="senderAddress.postCode" labelInfo="Post Code" />
+          <FormInput name="senderAddress.country" labelInfo="Country" />
         </div>
       </div>
       <div className="form-control">
@@ -25,26 +39,30 @@ const InvoiceForm = ({ inputType }) => {
           inputType="email"
         />
         <FormInput
-          name="clientAddress"
+          name="clientAddress.street"
           labelInfo="Street Address"
           inputType={inputType}
         />
         <div className="form-3-col">
-          <FormInput name="clientCity" labelInfo="City" inputType={inputType} />
-          <FormInput name="clientPostCode" labelInfo="Post Code" />
-          <FormInput name="clientCountry" labelInfo="Country" />
+          <FormInput
+            name="clientAddress.city"
+            labelInfo="City"
+            inputType={inputType}
+          />
+          <FormInput name="clientAddress.postCode" labelInfo="Post Code" />
+          <FormInput name="clientAddress.country" labelInfo="Country" />
         </div>
       </div>
       <div className="form-control">
         <div className="form-2-col">
           <FormInput
-            name="invoiceDate"
+            name="formData.createdAt"
             labelInfo="Invoice Date"
             inputType="date"
           />
           <div className="invoice-input">
-            <label htmlFor="payment terms">payment terms</label>
-            <select name="payment-terms" id="">
+            <label htmlFor="formData.paymentTerms">payment terms</label>
+            <select name="formData.paymentTerms">
               <option value="1 week">1 week</option>
               <option value="10 days">10 days</option>
               <option value="2 weeks">2 weeks</option>
@@ -55,19 +73,20 @@ const InvoiceForm = ({ inputType }) => {
           </div>
         </div>
         <FormInput
-          name="projectDescription"
+          name="formData.description"
           labelInfo="Project Description"
           inputType={inputType}
         />
         <div className="form-control">
           <h4>Item List</h4>
           <div className="new-item-container">
-            <AddNewItem />
-            <AddNewItem />
+            {items.map((item, index) => {
+              return <AddNewItem key={index} />;
+            })}
           </div>
           <button
             type="submit"
-            onClick={handleSubmitBtn}
+            onClick={handleAddNewItem}
             className="btn btn-add"
           >
             Add New Item <strong>+</strong>
@@ -79,7 +98,9 @@ const InvoiceForm = ({ inputType }) => {
           </div>
           <div className="btn-others">
             <button className="btn btn-draft">Save as Draft</button>
-            <button className="btn btn-send">Save & send</button>
+            <button className="btn btn-send" onClick={handleSubmitBtn}>
+              Save & send
+            </button>
           </div>
         </div>
       </div>
