@@ -1,11 +1,23 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useReducer,
+} from "react";
 import { jsonData } from "./data";
+import { formatDate } from "./utils";
+import reducer from "./redcuer";
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState(jsonData);
-
+  const initialState = {
+    status: "",
+    formData: {},
+  };
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [formData, setFormData] = useState({
     id: "",
     createdAt: "",
@@ -79,11 +91,16 @@ const AppProvider = ({ children }) => {
     setFormData((prevData) => {
       return {
         ...prevData,
+        id: Date.now(),
+        createdAt: formatDate(new Date()),
         senderAddress: { ...senderDetails },
         clientAddress: { ...clientDetails },
         clientName: clientName,
         clientEmail: clientEmail,
         description: projectDescription,
+        total: prevData.items
+          .map((item) => item.total)
+          .reduce((a, b) => a + b, 0),
       };
     });
     console.log(formData);
@@ -136,6 +153,7 @@ const AppProvider = ({ children }) => {
         handleItemChange,
         itemInputs,
         setItemInputs,
+        ...state,
       }}
     >
       {children}
