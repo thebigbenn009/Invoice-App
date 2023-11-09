@@ -15,33 +15,33 @@ const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState(jsonData);
   const initialState = {
     status: "",
-    formData: {},
+    formData: {
+      id: "",
+      createdAt: "",
+      paymentDue: "",
+      description: "",
+      paymentTerms: "",
+      clientName: "",
+      clientEmail: "",
+      status: "",
+      senderAddress: {
+        street: "",
+        city: "",
+        postCode: "",
+        country: "",
+      },
+      clientAddress: {
+        street: "",
+        city: "",
+        postCode: "",
+        country: "",
+      },
+      items: [],
+      total: "",
+    },
   };
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [formData, setFormData] = useState({
-    id: "",
-    createdAt: "",
-    paymentDue: "",
-    description: "",
-    paymentTerms: "",
-    clientName: "",
-    clientEmail: "",
-    status: "",
-    senderAddress: {
-      street: "",
-      city: "",
-      postCode: "",
-      country: "",
-    },
-    clientAddress: {
-      street: "",
-      city: "",
-      postCode: "",
-      country: "",
-    },
-    items: [],
-    total: "",
-  });
+
   const [inputData, setInputData] = useState({
     clientName: "",
     clientEmail: "",
@@ -54,13 +54,23 @@ const AppProvider = ({ children }) => {
     clientPostCode: "",
     clientCountry: "",
     projectDescription: "",
+    itemName: "",
+    itemQuantity: "",
+    itemPrice: "",
+    itemTotal: "",
   });
-  const [itemInputs, setItemInputs] = useState({
-    name: "",
-    quantity: "",
-    price: "",
-    total: "",
-  });
+
+  const addNewItem = (e) => {
+    e.preventDefault();
+    const newItem = {
+      name: inputData.itemName,
+      quantity: inputData.itemQuantity,
+      price: inputData.itemPrice,
+      total: inputData.itemPrice * inputData.itemQuantity,
+    };
+    dispatch({ type: "ADD_NEW_ITEM", payload: newItem });
+  };
+
   const handleSubmitBtn = (e) => {
     e.preventDefault();
     const {
@@ -75,6 +85,10 @@ const AppProvider = ({ children }) => {
       clientPostCode,
       clientCountry,
       projectDescription,
+      itemName,
+      itemPrice,
+      itemQuantity,
+      itemTotal,
     } = inputData;
     const senderDetails = {
       street: senderStreet,
@@ -112,47 +126,27 @@ const AppProvider = ({ children }) => {
     });
   };
 
-  const handleItemChange = (e) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setItemInputs((prevInput) => ({
-      ...prevInput,
-      [name]: value,
-    }));
-  };
-
-  const addNewItem = (e) => {
-    e.preventDefault();
-    const newItem = {
-      ...itemInputs,
-      total: itemInputs.price * itemInputs.quantity,
-    };
-    setFormData((prevForm) => {
-      return { ...prevForm, items: [...prevForm.items, newItem] };
-    });
-    setItemInputs({
-      name: "",
-      quantity: "",
-      price: "",
-      total: "",
-    });
-  };
+  // const handleItemChange = (e) => {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+  //   setItemInputs((prevInput) => ({
+  //     ...prevInput,
+  //     [name]: value,
+  //   }));
+  // };
 
   return (
     <AppContext.Provider
       value={{
         invoiceData,
         setInvoiceData,
-        formData,
-        setFormData,
+
         inputData,
         setInputData,
         handleInputChange,
         handleSubmitBtn,
         addNewItem,
-        handleItemChange,
-        itemInputs,
-        setItemInputs,
+
         ...state,
       }}
     >
