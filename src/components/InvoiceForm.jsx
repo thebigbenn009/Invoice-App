@@ -4,7 +4,8 @@ import AddNewItem from "./AddNewItem";
 import { useGlobalContext } from "../Context";
 
 const InvoiceForm = ({ inputType }) => {
-  const { handleSubmitBtn, addNewItem } = useGlobalContext();
+  const { handleSubmitBtn, addNewItem, dueDate, handleInputChange } =
+    useGlobalContext();
 
   return (
     <form>
@@ -46,14 +47,12 @@ const InvoiceForm = ({ inputType }) => {
           />
           <div className="invoice-input">
             <label htmlFor="formData.paymentTerms">payment terms</label>
-            <select name="formData.paymentTerms">
-              <option value="1 week">1 week</option>
-              <option value="10 days">10 days</option>
-              <option value="2 weeks">2 weeks</option>
-              <option value="1 month">1 month</option>
-              <option value="custom">custom</option>
+            <select name="dueDate" value={dueDate} onChange={handleInputChange}>
+              <option value="1 day">Next 1 day</option>
+              <option value="7 days">Next 7 days</option>
+              <option value="2 weeks">Next 14 days</option>
+              <option value="1 month">Next 30 days</option>
             </select>
-            {/* <FormInput labelInfo="payment terms" inputType="date" /> */}
           </div>
         </div>
         <FormInput

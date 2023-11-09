@@ -1,3 +1,9 @@
+export const calculateTotal = (state) => {
+  const total = state.formData.items
+    .map((item) => item.total)
+    .reduce((a, b) => a + b, 0);
+  return total;
+};
 export function formatDate(date) {
   const day = date.getDate();
   const monthNames = [
@@ -40,4 +46,27 @@ export function formatDate(date) {
 
 const today = new Date();
 const formattedToday = formatDate(today);
-console.log(formattedToday); // Output: "7th November 2023"
+
+export const calculateDueDate = (paymentTerm) => {
+  const currentDate = new Date();
+  let dueDate = new Date(currentDate);
+  switch (paymentTerm) {
+    case "1 day":
+      dueDate.setDate(currentDate.getDate() + 1);
+      break;
+    case "1 week":
+      dueDate.setDate(currentDate.getDate() + 7);
+      break;
+    case "2 weeks":
+      dueDate.setDate(currentDate.getDate() + 14);
+      break;
+    case "1 month":
+      dueDate.setMonth(currentDate.getMonth() + 1); // Add 1 month
+      break;
+    default:
+      break;
+  }
+  const formattedDate = formatDate(dueDate);
+  return formattedDate;
+};
+console.log(calculateDueDate("2 weeks"));

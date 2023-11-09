@@ -1,3 +1,5 @@
+import { calculateDueDate, calculateTotal, formatDate } from "./utils";
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_NEW_ITEM":
@@ -29,6 +31,7 @@ const reducer = (state, action) => {
         clientPostCode,
         clientCountry,
         projectDescription,
+        dueDate,
       } = action.payload;
       const senderAddress = {
         street: senderStreet,
@@ -47,8 +50,8 @@ const reducer = (state, action) => {
         formData: {
           ...state.formData,
           id: Date.now(),
-          createdAt: Date.now(),
-          paymentDue: "",
+          createdAt: formatDate(new Date()),
+          paymentDue: calculateDueDate(dueDate),
           description: projectDescription,
           paymentTerms: "",
           clientName: clientName,
@@ -61,9 +64,7 @@ const reducer = (state, action) => {
             ...clientAddress,
           },
 
-          total: state.formData.items
-            .map((item) => item.total)
-            .reduce((a, b) => a + b, 0),
+          total: calculateTotal(state),
         },
       };
     default:

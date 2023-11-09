@@ -53,6 +53,7 @@ const AppProvider = ({ children }) => {
     clientCity: "",
     clientPostCode: "",
     clientCountry: "",
+    dueDate: "",
     projectDescription: "",
     itemName: "",
     itemQuantity: "",
@@ -75,8 +76,6 @@ const AppProvider = ({ children }) => {
     e.preventDefault();
 
     dispatch({ type: "SUBMIT_FORM", payload: inputData });
-
-    console.log(formData);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -92,6 +91,7 @@ const AppProvider = ({ children }) => {
 
         inputData,
         setInputData,
+        ...inputData,
         handleInputChange,
         handleSubmitBtn,
         addNewItem,
