@@ -73,50 +73,9 @@ const AppProvider = ({ children }) => {
 
   const handleSubmitBtn = (e) => {
     e.preventDefault();
-    const {
-      clientName,
-      clientEmail,
-      senderStreet,
-      senderCity,
-      senderPostCode,
-      senderCountry,
-      clientStreet,
-      clientCity,
-      clientPostCode,
-      clientCountry,
-      projectDescription,
-      itemName,
-      itemPrice,
-      itemQuantity,
-      itemTotal,
-    } = inputData;
-    const senderDetails = {
-      street: senderStreet,
-      city: senderCity,
-      postCode: senderPostCode,
-      country: senderCountry,
-    };
-    const clientDetails = {
-      street: clientStreet,
-      city: clientCity,
-      postCode: clientPostCode,
-      country: clientCountry,
-    };
-    setFormData((prevData) => {
-      return {
-        ...prevData,
-        id: Date.now(),
-        createdAt: formatDate(new Date()),
-        senderAddress: { ...senderDetails },
-        clientAddress: { ...clientDetails },
-        clientName: clientName,
-        clientEmail: clientEmail,
-        description: projectDescription,
-        total: prevData.items
-          .map((item) => item.total)
-          .reduce((a, b) => a + b, 0),
-      };
-    });
+
+    dispatch({ type: "SUBMIT_FORM", payload: inputData });
+
     console.log(formData);
   };
   const handleInputChange = (e) => {
@@ -125,16 +84,6 @@ const AppProvider = ({ children }) => {
       return { ...prevData, [name]: value };
     });
   };
-
-  // const handleItemChange = (e) => {
-  //   e.preventDefault();
-  //   const { name, value } = e.target;
-  //   setItemInputs((prevInput) => ({
-  //     ...prevInput,
-  //     [name]: value,
-  //   }));
-  // };
-
   return (
     <AppContext.Provider
       value={{
