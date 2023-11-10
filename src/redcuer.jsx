@@ -40,7 +40,7 @@ const reducer = (state, action) => {
         paymentTerms: "",
         clientName: state.inputData.clientName,
         clientEmail: state.inputData.clientEmail,
-        status: "",
+        status: "pending",
         senderAddress: {
           street: state.inputData.senderStreet,
           city: state.inputData.senderCity,
