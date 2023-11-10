@@ -2,6 +2,7 @@ import {
   calculateDueDate,
   calculateTotal,
   formatDate,
+  generateUniqueId,
   getCurrentDate,
   hasEmptyValues,
 } from "./utils";
@@ -32,7 +33,7 @@ const reducer = (state, action) => {
       };
     case "SUBMIT_FORM":
       const newInvoice = {
-        id: Date.now(),
+        id: generateUniqueId(state.invoiceData),
         createdAt: getCurrentDate(),
         paymentDue: calculateDueDate(state.inputData.dueDate),
         description: state.inputData.projectDescription,
