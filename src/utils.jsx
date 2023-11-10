@@ -102,3 +102,20 @@ export const hasEmptyValues = (obj) => {
   }
   return false;
 };
+/////GENERATING UNIQUE ID
+export const generateUniqueId = (invoiceData) => {
+  const existingInvoiceIds = invoiceData.map((invoice) => invoice.id);
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const getRandomLetter = () => {
+    return letters[Math.floor(Math.random() * letters.length)];
+  };
+  const getRandomNumber = () =>
+    Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, "0");
+
+      const generateId = ()=> {
+        const id = `${getRandomLetter()}${getRandomLetter()}${getRandomNumber()}`;
+    // Check if the generated ID already exists in the array
+   
+};
