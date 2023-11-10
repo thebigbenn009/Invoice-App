@@ -54,6 +54,29 @@ const reducer = (state, action) => {
         items: [state.inputData.items],
         total: calculateTotal(state),
       };
+      const resetInput = {
+        clientName: "",
+        clientEmail: "",
+        senderStreet: "",
+        senderCity: "",
+        senderPostCode: "",
+        senderCountry: "",
+        clientStreet: "",
+        clientCity: "",
+        clientPostCode: "",
+        clientCountry: "",
+        dueDate: "",
+        projectDescription: "",
+        items: [],
+        itemName: "",
+        itemQuantity: "",
+        itemPrice: "",
+      };
+      return {
+        ...state,
+        invoiceData: [...state.invoiceData, newInvoice],
+        inputData: resetInput,
+      };
 
     case "SAVE_AS_DRAFT":
       return {

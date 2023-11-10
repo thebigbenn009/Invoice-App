@@ -42,7 +42,8 @@ const AppProvider = ({ children }) => {
   const handleSubmitBtn = (e) => {
     e.preventDefault();
 
-    dispatch({ type: "SUBMIT_FORM", payload: state.inputData });
+    dispatch({ type: "SUBMIT_FORM" });
+    console.log(state.invoiceData);
   };
 
   const saveAsDraft = (e) => {
