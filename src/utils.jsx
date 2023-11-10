@@ -1,5 +1,5 @@
 export const calculateTotal = (state) => {
-  const total = state.formData.items
+  const total = state.inputData.items
     .map((item) => item.total)
     .reduce((a, b) => a + b, 0);
   return total;
@@ -70,3 +70,20 @@ export const calculateDueDate = (paymentTerm) => {
   return formattedDate;
 };
 console.log(calculateDueDate("2 weeks"));
+
+// Function to check if any value in an object is empty
+export const hasEmptyValues = (obj) => {
+  for (const key in obj) {
+    if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+      if (hasEmptyValues(obj[key])) {
+        return true;
+      }
+    } else if (
+      obj[key] === "" ||
+      (Array.isArray(obj[key]) && obj[key].length === 0)
+    ) {
+      return true;
+    }
+  }
+  return false;
+};

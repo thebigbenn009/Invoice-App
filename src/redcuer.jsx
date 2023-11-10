@@ -1,71 +1,64 @@
-import { calculateDueDate, calculateTotal, formatDate } from "./utils";
+import {
+  calculateDueDate,
+  calculateTotal,
+  formatDate,
+  hasEmptyValues,
+} from "./utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "ADD_NEW_ITEM":
+    case "UPDATE_INPUT":
+      const { name, value } = action.payload;
+
       return {
         ...state,
-        formData: {
-          ...state.formData,
-          items: [
-            ...state.formData.items,
-            {
-              name: action.payload.name,
-              quantity: action.payload.quantity,
-              price: action.payload.price,
-              total: action.payload.total,
-            },
-          ],
+        inputData: { ...state.inputData, [name]: value },
+      };
+    case "ADD_NEW_ITEM":
+      const { itemName, itemQuantity, itemPrice } = action.payload;
+      const newItem = {
+        name: itemName,
+        quantity: itemQuantity,
+        price: itemPrice,
+        total: itemPrice * itemQuantity,
+      };
+      return {
+        ...state,
+        inputData: {
+          ...state.inputData,
+          items: [...state.inputData.items, newItem],
         },
       };
     case "SUBMIT_FORM":
-      const {
-        clientName,
-        clientEmail,
-        senderStreet,
-        senderCity,
-        senderPostCode,
-        senderCountry,
-        clientStreet,
-        clientCity,
-        clientPostCode,
-        clientCountry,
-        projectDescription,
-        dueDate,
-      } = action.payload;
-      const senderAddress = {
-        street: senderStreet,
-        city: senderCity,
-        postCode: senderPostCode,
-        country: senderCountry,
+      const newInvoice = {
+        id: Date.now(),
+        createdAt: formatDate(new Date()),
+        paymentDue: calculateDueDate(state.inputData.dueDate),
+        description: state.inputData.projectDescription,
+        paymentTerms: "",
+        clientName: state.inputData.clientName,
+        clientEmail: state.inputData.clientEmail,
+        status: "",
+        senderAddress: {
+          street: state.inputData.senderStreet,
+          city: state.inputData.senderCity,
+          postCode: state.inputData.senderPostCode,
+          country: state.inputData.senderCountry,
+        },
+        clientAddress: {
+          street: state.inputData.clientStreet,
+          city: state.inputData.clientCity,
+          postCode: state.inputData.clientPostCode,
+          country: state.inputData.clientCountry,
+        },
+        items: [state.inputData.items],
+        total: calculateTotal(state),
       };
-      const clientAddress = {
-        street: clientStreet,
-        city: clientCity,
-        postCode: clientPostCode,
-        country: clientCountry,
-      };
+
+    case "SAVE_AS_DRAFT":
       return {
         ...state,
-        formData: {
-          ...state.formData,
-          id: Date.now(),
-          createdAt: formatDate(new Date()),
-          paymentDue: calculateDueDate(dueDate),
-          description: projectDescription,
-          paymentTerms: "",
-          clientName: clientName,
-          clientEmail: clientEmail,
-          status: "",
-          senderAddress: {
-            ...senderAddress,
-          },
-          clientAddress: {
-            ...clientAddress,
-          },
-
-          total: calculateTotal(state),
-        },
+        // status: "pending",
       };
     default:
       return state;

@@ -1,97 +1,59 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useReducer,
-} from "react";
+import React, { createContext, useContext, useState, useReducer } from "react";
 import { jsonData } from "./data";
-import { formatDate } from "./utils";
+
 import reducer from "./redcuer";
 
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [invoiceData, setInvoiceData] = useState(jsonData);
   const initialState = {
-    status: "",
-    formData: {
-      id: "",
-      createdAt: "",
-      paymentDue: "",
-      description: "",
-      paymentTerms: "",
+    invoiceData: [...jsonData],
+    inputData: {
       clientName: "",
       clientEmail: "",
-      status: "",
-      senderAddress: {
-        street: "",
-        city: "",
-        postCode: "",
-        country: "",
-      },
-      clientAddress: {
-        street: "",
-        city: "",
-        postCode: "",
-        country: "",
-      },
+      senderStreet: "",
+      senderCity: "",
+      senderPostCode: "",
+      senderCountry: "",
+      clientStreet: "",
+      clientCity: "",
+      clientPostCode: "",
+      clientCountry: "",
+      dueDate: "",
+      projectDescription: "",
       items: [],
-      total: "",
+      itemName: "",
+      itemQuantity: "",
+      itemPrice: "",
     },
+    incompleteForm: "",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const [inputData, setInputData] = useState({
-    clientName: "",
-    clientEmail: "",
-    senderStreet: "",
-    senderCity: "",
-    senderPostCode: "",
-    senderCountry: "",
-    clientStreet: "",
-    clientCity: "",
-    clientPostCode: "",
-    clientCountry: "",
-    dueDate: "",
-    projectDescription: "",
-    itemName: "",
-    itemQuantity: "",
-    itemPrice: "",
-    itemTotal: "",
-  });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    dispatch({ type: "UPDATE_INPUT", payload: { name, value } });
+  };
 
   const addNewItem = (e) => {
     e.preventDefault();
-    const newItem = {
-      name: inputData.itemName,
-      quantity: inputData.itemQuantity,
-      price: inputData.itemPrice,
-      total: inputData.itemPrice * inputData.itemQuantity,
-    };
-    dispatch({ type: "ADD_NEW_ITEM", payload: newItem });
+    dispatch({ type: "ADD_NEW_ITEM", payload: state.inputData });
   };
 
   const handleSubmitBtn = (e) => {
     e.preventDefault();
 
-    dispatch({ type: "SUBMIT_FORM", payload: inputData });
+    dispatch({ type: "SUBMIT_FORM", payload: state.inputData });
   };
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInputData((prevData) => {
-      return { ...prevData, [name]: value };
-    });
+
+  const saveAsDraft = (e) => {
+    e.preventDefault();
+    dispatch({ type: "SAVE_AS_DRAFT" });
   };
   return (
     <AppContext.Provider
       value={{
-        invoiceData,
-        setInvoiceData,
+        saveAsDraft,
 
-        inputData,
-        setInputData,
-        ...inputData,
         handleInputChange,
         handleSubmitBtn,
         addNewItem,

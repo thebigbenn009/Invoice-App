@@ -8,6 +8,7 @@ const FormInput = ({
   inputType = "text",
 }) => {
   const { inputData, handleInputChange } = useGlobalContext();
+
   return (
     <div className="invoice-input">
       <label>{labelInfo}</label>

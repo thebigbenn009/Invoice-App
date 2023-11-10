@@ -4,8 +4,13 @@ import AddNewItem from "./AddNewItem";
 import { useGlobalContext } from "../Context";
 
 const InvoiceForm = ({ inputType }) => {
-  const { handleSubmitBtn, addNewItem, dueDate, handleInputChange } =
-    useGlobalContext();
+  const {
+    handleSubmitBtn,
+    addNewItem,
+    dueDate,
+    handleInputChange,
+    saveAsDraft,
+  } = useGlobalContext();
 
   return (
     <form>
@@ -74,7 +79,9 @@ const InvoiceForm = ({ inputType }) => {
             <button className="btn btn-discard">Discard</button>
           </div>
           <div className="btn-others">
-            <button className="btn btn-draft">Save as Draft</button>
+            <button className="btn btn-draft" onClick={saveAsDraft}>
+              Save as Draft
+            </button>
             <button className="btn btn-send" onClick={handleSubmitBtn}>
               Save & send
             </button>
