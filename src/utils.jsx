@@ -4,6 +4,21 @@ export const calculateTotal = (state) => {
     .reduce((a, b) => a + b, 0);
   return total;
 };
+export function getCurrentDate() {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const day = currentDate.getDate().toString().padStart(2, "0");
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
+// Example usage
+// const formattedDate = getCurrentDate();
+// console.log(formattedDate);
+
 export function formatDate(date) {
   const day = date.getDate();
   const monthNames = [
@@ -66,7 +81,7 @@ export const calculateDueDate = (paymentTerm) => {
     default:
       break;
   }
-  const formattedDate = formatDate(dueDate);
+  const formattedDate = getCurrentDate(dueDate);
   return formattedDate;
 };
 console.log(calculateDueDate("2 weeks"));

@@ -43,7 +43,6 @@ const AppProvider = ({ children }) => {
     e.preventDefault();
 
     dispatch({ type: "SUBMIT_FORM" });
-    console.log(state.invoiceData);
   };
 
   const saveAsDraft = (e) => {
