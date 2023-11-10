@@ -114,8 +114,13 @@ export const generateUniqueId = (invoiceData) => {
       .toString()
       .padStart(4, "0");
 
-      const generateId = ()=> {
-        const id = `${getRandomLetter()}${getRandomLetter()}${getRandomNumber()}`;
+  const generateId = () => {
+    const id = `${getRandomLetter()}${getRandomLetter()}${getRandomNumber()}`;
     // Check if the generated ID already exists in the array
-   
+    if (existingInvoiceIds.includes(id)) {
+      return generateId();
+    }
+    return id;
+  };
+  return generateId();
 };
