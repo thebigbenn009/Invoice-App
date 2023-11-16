@@ -11,11 +11,14 @@
   --grey-1: #dfe3fa;
   --yellow: #ff8f00;
   --teal: #33d69f;
-  --deep-blue: #141625;
+  --deep-blue-1: #141625;
+  --deep-blue-2: #141625;
+  --deep-blue-3: #0c0e16;
   --primary-purple: #7c5dfa;
   --purple-1: #1e2139;
   --purple-2: #858bb2;
   --purple-3: #252945;
+  --error: #ec5757;
 }
 h1,
 h2,
@@ -246,7 +249,10 @@ select option :active {
   width: 100%;
 }
 .invoice-input label {
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 0.5rem;
   font-size: 1.3rem;
   font-weight: 500;
 }
@@ -274,6 +280,10 @@ select {
 .form-control h4 {
   margin-bottom: 2rem;
   color: var(--primary-purple);
+}
+.error {
+  color: var(--error);
+  font-size: 0.8rem;
 }
 .new-item {
   width: 100%;
