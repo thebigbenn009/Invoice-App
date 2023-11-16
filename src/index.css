@@ -221,7 +221,7 @@ select option :active {
 /* NEW INVOICE */
 .invoice-section {
   width: 100%;
-  background-color: var(--deep-blue);
+  background-color: var(--deep-blue-1);
 }
 .new-invoice {
   max-width: 40vw;

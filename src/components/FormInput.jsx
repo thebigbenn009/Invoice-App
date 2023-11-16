@@ -58,51 +58,71 @@ const FormInput = () => {
             })}
           />
         </div>
-        <div className="invoice-input">
-          <label htmlFor="senderCity">
-            <span>Sender City</span>
-            <span className="error">
-              {errors?.senderAddress?.city?.message}
-            </span>
-          </label>
-          <input
-            type="text"
-            id="senderCity"
-            {...register("senderAddress.city", {
-              required: {
-                value: true,
-                message: "can't be empty",
-              },
-            })}
-          />
-        </div>
-        <div className="invoice-input">
-          <label htmlFor="senderPostcode">
-            <span>Post code</span>
-            <span className="error">
-              {errors?.senderAddress?.postCode?.message}
-            </span>
-          </label>
-          <input
-            type="text"
-            id="senderPostcode"
-            {...register("senderAddress.postCode", {
-              // valueAsNumber: true,
-              required: {
-                value: true,
-                message: "can't be empty",
-              },
+        <div className="form-3-col">
+          <div className="invoice-input">
+            <label htmlFor="senderCity">
+              <span>Sender City</span>
+              <span className="error">
+                {errors?.senderAddress?.city?.message}
+              </span>
+            </label>
+            <input
+              type="text"
+              id="senderCity"
+              {...register("senderAddress.city", {
+                required: {
+                  value: true,
+                  message: "can't be empty",
+                },
+              })}
+            />
+          </div>
+          <div className="invoice-input">
+            <label htmlFor="senderPostcode">
+              <span>Post code</span>
+              <span className="error">
+                {errors?.senderAddress?.postCode?.message}
+              </span>
+            </label>
+            <input
+              type="text"
+              id="senderPostcode"
+              {...register("senderAddress.postCode", {
+                // valueAsNumber: true,
+                required: {
+                  value: true,
+                  message: "can't be empty",
+                },
 
-              pattern: {
-                value: /^\d{1,5}$/,
-                message: "Please enter a number",
-              },
-              maxLength: {
-                value: 5,
-                message: "Postal code must be 5 characters or less",
-              },
-            })}
-          />
+                pattern: {
+                  value: /^\d{1,5}$/,
+                  message: "Please enter a number",
+                },
+                maxLength: {
+                  value: 5,
+                  message: "Postal code must be 5 characters or less",
+                },
+              })}
+            />
+          </div>
+          <div className="invoice-input">
+            <label htmlFor="senderCountry">
+              <span>Country</span>
+              <span className="error">
+                {errors?.senderAddress?.country?.message}
+              </span>
+            </label>
+            <input
+              type="text"
+              id="senderCountry"
+              {...register("senderAddress.country", {
+                required: {
+                  value: true,
+                  message: "can't be empty",
+                },
+              })}
+            />
+          </div>
         </div>
 
         <div className="btn-container">
