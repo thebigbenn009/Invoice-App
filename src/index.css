@@ -243,6 +243,14 @@ select option :active {
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
 }
+.form-4-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) auto;
+  gap: 1rem;
+}
+.remove-item {
+  align-self: center;
+}
 /* FORM */
 .invoice-input {
   margin-bottom: 2rem;
