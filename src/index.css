@@ -249,7 +249,7 @@ select option :active {
   gap: 1rem;
 }
 .remove-item {
-  align-self: top;
+  align-self: left;
 }
 /* FORM */
 .invoice-input {
