@@ -11,34 +11,34 @@ const FormInput = () => {
     setValue,
     watch,
   } = useForm({
-    defaultValues: {
-      clientName: "Jensen Huang",
-      clientEmail: "jensenh@mail.com",
-      status: "paid",
-      createdAt: new Date(),
-      paymentDue: new Date(),
-      description: "Re-branding",
-      senderAddress: {
-        street: "",
-        city: "London",
-        postCode: "E1 3EZ",
-        country: "United Kingdom",
-      },
-      clientAddress: {
-        street: "106 Kendell Street",
-        city: "Sharrington",
-        postCode: "NR24 5WQ",
-        country: "United Kingdom",
-      },
-      items: [
-        {
-          name: "",
-          quantity: "",
-          price: "",
-          // totalAmount: 0,
-        },
-      ],
-    },
+    // defaultValues: {
+    //   clientName: "Jensen Huang",
+    //   clientEmail: "jensenh@mail.com",
+    //   status: "paid",
+    //   createdAt: new Date(),
+    //   paymentDue: new Date(),
+    //   description: "Re-branding",
+    //   senderAddress: {
+    //     street: "",
+    //     city: "London",
+    //     postCode: "E1 3EZ",
+    //     country: "United Kingdom",
+    //   },
+    //   clientAddress: {
+    //     street: "106 Kendell Street",
+    //     city: "Sharrington",
+    //     postCode: "NR24 5WQ",
+    //     country: "United Kingdom",
+    //   },
+    //   items: [
+    //     {
+    //       name: "",
+    //       quantity: "",
+    //       price: "",
+    //       // totalAmount: 0,
+    //     },
+    //   ],
+    // },
   });
   const onSubmit = (data) => {
     console.log(data);
@@ -50,15 +50,15 @@ const FormInput = () => {
   });
   // Function to update total amount when quantity or price changes
   const calculateTotalAmount = (index) => {
-    const quantity = getValues(`items.${index}.quantity`);
-    const price = getValues(`items.${index}.price`);
-    if (quantity && price) {
-      const totalAmount = parseFloat(quantity) * parseFloat(price);
-      console.log(totalAmount);
-      setValue(`items.${index}.totalAmount`, totalAmount.toFixed(2));
-    } else {
-      setValue(`items.${index}.totalAmount`, "");
-    }
+    const quantity = parseInt(fields[index]?.quantity, 10) || 0;
+    const price = parseFloat(fields[index]?.price) || 0;
+    const totalAmount = quantity * price;
+
+    // Update the totalAmount in the form data
+    fields[index].totalAmount = totalAmount.toFixed(2);
+
+    // Trigger re-render by forcing the update of the form state
+    append([...fields]);
   };
 
   return (
@@ -280,7 +280,8 @@ const FormInput = () => {
                 <input
                   type="text"
                   id={`items.${index}.totalAmount`}
-                  {...register(`items.${index}.totalAmount`)}
+                  // {...register(`items.${index}.totalAmount`)}
+                  value={field.totalAmount || ""}
                   readOnly
                 />
               </div>
