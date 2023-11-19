@@ -241,6 +241,43 @@ const FormInput = () => {
           </div>
         </div>
         <div className="form-control">
+          <div className="form-2-col">
+            <div className="invoice-input">
+              <label htmlFor="createdAt">
+                <span>Invoice Date</span>
+                <span className="error">{errors?.createdAt?.message}</span>
+              </label>
+              <input
+                type="date"
+                id="createdAt"
+                {...register("createdAt", {
+                  valueAsDate: true,
+                  required: {
+                    value: true,
+                    message: "required",
+                  },
+                })}
+              />
+            </div>
+            <div className="invoice-input">
+              <label htmlFor="paymentDue">
+                <span>Payment Terms</span>
+                <span className="error">{errors?.paymentDue?.message}</span>
+              </label>
+              <input
+                type="date"
+                id="paymentDue"
+                {...register("paymentDue", {
+                  required: {
+                    value: true,
+                    message: "required",
+                  },
+                })}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-control">
           <h4>Items</h4>
           {fields.map((field, index) => (
             <div key={field.id} className="form-4-col">
