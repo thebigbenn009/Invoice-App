@@ -7,7 +7,7 @@ const FormInput = () => {
     control,
     handleSubmit,
     formState,
-    getValues,
+
     setValue,
     watch,
   } = useForm({
@@ -43,24 +43,27 @@ const FormInput = () => {
   const onSubmit = (data) => {
     console.log(data);
   };
-  const { errors, isValid, isDirty } = formState;
-  const { append, remove, fields, insert } = useFieldArray({
+  const { errors } = formState;
+  const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
   });
-  // Function to update total amount when quantity or price changes
-  const calculateTotalAmount = (index) => {
-    const quantity = parseInt(fields[index]?.quantity, 10) || 0;
-    const price = parseFloat(fields[index]?.price) || 0;
-    const totalAmount = quantity * price;
-
-    // Update the totalAmount in the form data
-    fields[index].totalAmount = totalAmount.toFixed(2);
-
-    // Trigger re-render by forcing the update of the form state
-    append([...fields]);
+  //function to handle price change and update total dynamically
+  const handlePriceChange = (index, value) => {
+    setValue(`items.${index}.price`, value, { shouldValidate: true });
+    const quantity = watch(`items.${index}.quantity`);
+    if (quantity !== undefined) {
+      setValue(`items.${index}.total`, value * quantity);
+    }
   };
-
+  //function to handle quantity change and update total dynamically
+  const handleQuantityChange = (index, value) => {
+    setValue(`items.${index}.quantity`, value, { shouldValidate: true });
+    const price = watch(`items.${index}.price`);
+    if (price !== undefined) {
+      setValue(`items.${index}.total`, value * price);
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -248,40 +251,60 @@ const FormInput = () => {
                 <input
                   type="text"
                   id={`items.${index}.name`}
-                  {...register(`items.${index}.name`)}
+                  {...register(`items.${index}.name`, {
+                    required: {
+                      value: true,
+                      message: "enter item name",
+                    },
+                  })}
                 />
+                <span className="error">
+                  {errors?.items?.[index]?.name?.message}
+                </span>
               </div>
               <div className="invoice-input">
                 <label htmlFor={`items.${index}.quantity`}>
-                  <span>Quantity</span>
+                  <span>Qty.</span>
                 </label>
                 <input
                   type="number"
                   id={`items.${index}.quantity`}
-                  {...register(`items.${index}.quantity`)}
-                  onChange={() => calculateTotalAmount(index)}
+                  {...register(`items.${index}.quantity`, {
+                    required: { value: true, message: "specify quantity" },
+                  })}
+                  onChange={(e) => handleQuantityChange(index, e.target.value)}
                 />
+                <span className="error">
+                  {errors?.items?.[index]?.quantity?.message}
+                </span>
               </div>
               <div className="invoice-input">
                 <label htmlFor={`items.${index}.price`}>
                   <span>Price</span>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id={`items.${index}.price`}
-                  {...register(`items.${index}.price`)}
-                  onChange={() => calculateTotalAmount(index)}
+                  {...register(`items.${index}.price`, {
+                    required: {
+                      value: true,
+                      message: "specify price",
+                    },
+                  })}
+                  onChange={(e) => handlePriceChange(index, e.target.value)}
                 />
+                <span className="error">
+                  {errors?.items?.[index]?.price?.message}
+                </span>
               </div>
               <div className="invoice-input">
-                <label htmlFor={`items.${index}.totalAmount`}>
-                  <span>Total Amount</span>
+                <label htmlFor={`items.${index}.total`}>
+                  <span>Total</span>
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   id={`items.${index}.totalAmount`}
-                  // {...register(`items.${index}.totalAmount`)}
-                  value={field.totalAmount || ""}
+                  value={watch(`items.${index}.total`, 0)}
                   readOnly
                 />
               </div>
@@ -303,18 +326,26 @@ const FormInput = () => {
           ))}
           <div>
             <button
-              className="btn"
+              className="btn  btn-add"
               type="button"
-              onClick={() =>
+              onClick={() => {
+                //Validate that the last item has both score and unit filled before adding a new one
+                // const lastIndex = fields.length - 1;
+                // if (
+                //   !errors?.scores?.[lastIndex]?.score &&
+                //   !errors?.scores?.[lastIndex]?.unit &&
+                //   watch(`scores[${lastIndex}].score`) !== undefined &&
+                //   watch(`scores[${lastIndex}].unit`) !== undefined
+                // ) {
                 insert(0, {
                   name: "",
-                  quantity: "",
+                  qty: "",
                   price: "",
-                  totalAmount: "",
-                })
-              }
+                  total: 0,
+                });
+              }}
             >
-              Add Item
+              <strong>+</strong> Add New Item
             </button>
           </div>
         </div>
