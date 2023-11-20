@@ -40,6 +40,9 @@ const FormInput = () => {
     //   ],
     // },
   });
+  const saveAsDraft = (data) => {
+    console.log(data);
+  };
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -124,12 +127,12 @@ const FormInput = () => {
                   },
 
                   pattern: {
-                    value: /^\d{1,5}$/,
+                    value: /^\d{1,6}$/,
                     message: "Please enter a number",
                   },
                   maxLength: {
-                    value: 5,
-                    message: "Postal code must be 5 characters or less",
+                    value: 6,
+                    message: "Postal code must be 6 characters or less",
                   },
                 })}
               />
@@ -152,6 +155,32 @@ const FormInput = () => {
                 })}
               />
             </div>
+          </div>
+        </div>
+        <div className="form-control">
+          <div className="invoice-input">
+            <label htmlFor="clientName">client name</label>
+            <input
+              type="text"
+              id="clientName"
+              {...register("clientName", {
+                required: { value: true, message: "can't be empty" },
+              })}
+            />
+            <span className="error">{errors?.clientName?.message}</span>
+          </div>
+        </div>
+        <div className="form-control">
+          <div className="invoice-input">
+            <label htmlFor="clientEmail">client email</label>
+            <input
+              type="text"
+              id="clientEmail"
+              {...register("clientName", {
+                required: { value: true, message: "can't be empty" },
+              })}
+            />
+            <span className="error">{errors?.clientName?.message}</span>
           </div>
         </div>
         <div className="form-control">
@@ -210,12 +239,12 @@ const FormInput = () => {
                   },
 
                   pattern: {
-                    value: /^\d{1,5}$/,
+                    value: /^\d{1,6}$/,
                     message: "Please enter a number",
                   },
                   maxLength: {
-                    value: 5,
-                    message: "Postal code must be 5 characters or less",
+                    value: 6,
+                    message: "Postal code must be 6 characters or less",
                   },
                 })}
               />
@@ -264,16 +293,20 @@ const FormInput = () => {
                 <span>Payment Terms</span>
                 <span className="error">{errors?.paymentDue?.message}</span>
               </label>
-              <input
-                type="date"
-                id="paymentDue"
+              <select
                 {...register("paymentDue", {
                   required: {
                     value: true,
                     message: "required",
                   },
                 })}
-              />
+                id=""
+              >
+                <option value="">Payment Terms</option>
+                <option value="7 days">Next 7 Days</option>
+                <option value="14 days">Next 14 Days</option>
+                <option value="30 days">Next 30 Days</option>
+              </select>
             </div>
           </div>
         </div>
@@ -304,10 +337,14 @@ const FormInput = () => {
                   <span>Qty.</span>
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   id={`items.${index}.quantity`}
                   {...register(`items.${index}.quantity`, {
                     required: { value: true, message: "specify quantity" },
+                    pattern: {
+                      value: /^\d{1,5}$/,
+                      message: "Please enter a number",
+                    },
                   })}
                   onChange={(e) => handleQuantityChange(index, e.target.value)}
                 />
@@ -320,12 +357,16 @@ const FormInput = () => {
                   <span>Price</span>
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   id={`items.${index}.price`}
                   {...register(`items.${index}.price`, {
                     required: {
                       value: true,
                       message: "specify price",
+                    },
+                    pattern: {
+                      value: /^\d{1,5}$/,
+                      message: "Please enter a number",
                     },
                   })}
                   onChange={(e) => handlePriceChange(index, e.target.value)}
@@ -366,14 +407,6 @@ const FormInput = () => {
               className="btn  btn-add"
               type="button"
               onClick={() => {
-                //Validate that the last item has both score and unit filled before adding a new one
-                // const lastIndex = fields.length - 1;
-                // if (
-                //   !errors?.scores?.[lastIndex]?.score &&
-                //   !errors?.scores?.[lastIndex]?.unit &&
-                //   watch(`scores[${lastIndex}].score`) !== undefined &&
-                //   watch(`scores[${lastIndex}].unit`) !== undefined
-                // ) {
                 insert(0, {
                   name: "",
                   qty: "",

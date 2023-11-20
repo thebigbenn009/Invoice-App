@@ -251,6 +251,14 @@ select option :active {
 }
 .remove-item {
   align-self: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.remove-item:hover {
+  transform: translateY(-2px);
+}
+.remove-item:hover path {
+  fill: var(--error);
 }
 /* FORM */
 .invoice-input {
