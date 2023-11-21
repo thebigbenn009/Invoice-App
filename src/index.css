@@ -299,7 +299,7 @@ select {
   color: var(--primary-purple);
 }
 .error {
-  color: var(--error);
+  /* color: var(--error); */
   font-size: 0.8rem;
   display: block;
 }
