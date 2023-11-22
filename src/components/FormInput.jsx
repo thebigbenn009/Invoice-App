@@ -1,5 +1,4 @@
 import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useGlobalContext } from "../Context";
 import InvoiceInput from "./InvoiceInput";
@@ -14,7 +13,6 @@ const FormInput = () => {
     watch,
     remove,
     onSubmit,
-    // errors,
     saveAsDraft,
     handlePriceChange,
     handleQuantityChange,
@@ -134,23 +132,15 @@ const FormInput = () => {
         </div>
         <div className="form-control">
           <div className="form-2-col">
-            <div className="invoice-input">
-              <label htmlFor="createdAt">
-                <span>Invoice Date</span>
-                <span className="error">{errors?.createdAt?.message}</span>
-              </label>
-              <input
-                type="date"
-                id="createdAt"
-                {...register("createdAt", {
-                  valueAsDate: true,
-                  required: {
-                    value: true,
-                    message: "required",
-                  },
-                })}
-              />
-            </div>
+            <InvoiceInput
+              inputField="createdAt"
+              id="createdAt"
+              message="can't be empty"
+              fieldName="Invoice Date"
+              errorMessage={errors?.createdAt?.message}
+              type="date"
+            />
+
             <div className="invoice-input">
               <label htmlFor="paymentDue">
                 <span>Payment Terms</span>
@@ -177,78 +167,57 @@ const FormInput = () => {
           <h4>Items</h4>
           {fields.map((field, index) => (
             <div key={field.id} className="form-4-col">
-              <div className="invoice-input">
-                <label htmlFor={`items.${index}.name`}>
-                  <span>Item Name</span>
-                </label>
-                <input
-                  type="text"
-                  id={`items.${index}.name`}
-                  {...register(`items.${index}.name`, {
-                    required: {
-                      value: true,
-                      message: "enter item name",
-                    },
-                  })}
-                />
-                <span className="error">
-                  {errors?.items?.[index]?.name?.message}
-                </span>
-              </div>
-              <div className="invoice-input">
-                <label htmlFor={`items.${index}.quantity`}>
-                  <span>Qty.</span>
-                </label>
-                <input
-                  type="text"
-                  id={`items.${index}.quantity`}
-                  {...register(`items.${index}.quantity`, {
-                    required: { value: true, message: "specify quantity" },
-                    pattern: {
-                      value: /^\d{1,5}$/,
-                      message: "Please enter a number",
-                    },
-                  })}
-                  onChange={(e) => handleQuantityChange(index, e.target.value)}
-                />
-                <span className="error">
-                  {errors?.items?.[index]?.quantity?.message}
-                </span>
-              </div>
-              <div className="invoice-input">
-                <label htmlFor={`items.${index}.price`}>
-                  <span>Price</span>
-                </label>
-                <input
-                  type="text"
-                  id={`items.${index}.price`}
-                  {...register(`items.${index}.price`, {
-                    required: {
-                      value: true,
-                      message: "specify price",
-                    },
-                    pattern: {
-                      value: /^\d{1,5}$/,
-                      message: "Please enter a number",
-                    },
-                  })}
-                  onChange={(e) => handlePriceChange(index, e.target.value)}
-                />
-                <span className="error">
-                  {errors?.items?.[index]?.price?.message}
-                </span>
-              </div>
-              <div className="invoice-input">
-                <label htmlFor={`items.${index}.total`}>
-                  <span>Total</span>
-                </label>
-                <input
-                  type="number"
-                  id={`items.${index}.totalAmount`}
-                  value={watch(`items.${index}.total`, 0)}
-                  readOnly
-                />
-              </div>
+              <InvoiceInput
+                inputField={`items.${index}.name`}
+                id={`items.${index}.name`}
+                message="item name required"
+                fieldName="Item"
+                errorMessage={errors?.items?.[index]?.name?.message}
+                type="text"
+              />
+              <InvoiceInput
+                inputField={`items.${index}.quantity`}
+                id={`items.${index}.quantity`}
+                message="specify quantity"
+                fieldName="Qty"
+                errorMessage={errors?.items?.[index]?.quantity?.message}
+                type="text"
+                validationRules={{
+                  pattern: {
+                    value: /^\d{1,5}$/,
+                    message: "Please enter a number",
+                  },
+                }}
+                onChangeHandler={(e) =>
+                  handleQuantityChange(index, e.target.value)
+                }
+              />
+
+              <InvoiceInput
+                inputField={`items.${index}.price`}
+                id={`items.${index}.price`}
+                message="specify price"
+                fieldName="Price"
+                errorMessage={errors?.items?.[index]?.price?.message}
+                type="text"
+                validationRules={{
+                  pattern: {
+                    value: /^\d{1,5}$/,
+                    message: "Please enter a number",
+                  },
+                }}
+                onChangeHandler={(e) =>
+                  handlePriceChange(index, e.target.value)
+                }
+              />
+              <InvoiceInput
+                inputField={`items.${index}.total`}
+                id={`items.${index}.total`}
+                fieldName="Total"
+                type="number"
+                handleValue={watch(`items.${index}.total`, 0)}
+                readOnly
+              />
 
               <svg
                 className="remove-item"
