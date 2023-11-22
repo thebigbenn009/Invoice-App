@@ -29,14 +29,14 @@ const AppProvider = ({ children }) => {
       console.log("items must be placed");
       return;
     }
-    setInvoiceData((prevInvoice) => {
-      const newInvoice = {
-        id: generateUniqueId(prevInvoice),
-        status: "pending",
-        ...data,
-      };
-      return [...prevInvoice, newInvoice];
-    });
+    // setInvoiceData((prevInvoice) => {
+    //   const newInvoice = {
+    //     id: generateUniqueId(prevInvoice),
+    //     status: "pending",
+    //     ...data,
+    //   };
+    //   return [...prevInvoice, newInvoice];
+    // });
     console.log(data);
   };
   //function to handle save to drafts
