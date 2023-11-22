@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useState } from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
+import { generateUniqueId } from "./utils";
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
@@ -28,6 +29,14 @@ const AppProvider = ({ children }) => {
       console.log("items must be placed");
       return;
     }
+    setInvoiceData((prevInvoice) => {
+      const newInvoice = {
+        id: generateUniqueId(prevInvoice),
+        status: "pending",
+        ...data,
+      };
+      return [...prevInvoice, newInvoice];
+    });
     console.log(data);
   };
   //function to handle save to drafts

@@ -10,6 +10,7 @@ const InvoiceContainer = () => {
       {invoiceData.map((invoice) => {
         return (
           <InvoiceCard
+            key={invoice.id}
             {...invoice}
             backgroundColor={`${
               invoice.status === "pending"
