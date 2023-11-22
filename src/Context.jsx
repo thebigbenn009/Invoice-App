@@ -1,14 +1,12 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const initialState = {
-    invoiceData: [...jsonData],
-  };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [invoiceData, setInvoiceData] = useState([...jsonData]);
+
   const {
     register,
     control,
@@ -64,7 +62,8 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        ...state,
+        invoiceData,
+        setInvoiceData,
         register,
         control,
         handleSubmit,
