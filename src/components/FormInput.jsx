@@ -2,6 +2,7 @@ import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { useGlobalContext } from "../Context";
+import InvoiceInput from "./InvoiceInput";
 const FormInput = () => {
   const {
     register,
@@ -13,6 +14,7 @@ const FormInput = () => {
     watch,
     remove,
     onSubmit,
+    // errors,
     saveAsDraft,
     handlePriceChange,
     handleQuantityChange,
@@ -25,43 +27,22 @@ const FormInput = () => {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form-control">
           <h4>Bill From</h4>
-          <div className="invoice-input">
-            <label htmlFor="senderStreet">
-              <span>Sender Address</span>
-              <span className="error">
-                {errors?.senderAddress?.street?.message}
-              </span>
-            </label>
-            <input
-              type="text"
-              id="senderStreet"
-              {...register("senderAddress.street", {
-                required: {
-                  value: true,
-                  message: "can't be empty",
-                },
-              })}
-            />
-          </div>
+          <InvoiceInput
+            inputField="senderAddress.street"
+            id="senderAddress"
+            fieldName="Sender Address"
+            message="can't be empty"
+            errorMessage={errors?.senderAddress?.street?.message}
+          />
           <div className="form-3-col">
-            <div className="invoice-input">
-              <label htmlFor="senderCity">
-                <span>Sender City</span>
-                <span className="error">
-                  {errors?.senderAddress?.city?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="senderCity"
-                {...register("senderAddress.city", {
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-                })}
-              />
-            </div>
+            <InvoiceInput
+              inputField="senderAddress.city"
+              id="senderCity"
+              message="can't be empty"
+              fieldName="Sender City"
+              errorMessage={errors?.senderAddress?.city?.message}
+            />
+
             <div className="invoice-input">
               <label htmlFor="senderPostcode">
                 <span>Post code</span>
@@ -90,38 +71,23 @@ const FormInput = () => {
                 })}
               />
             </div>
-            <div className="invoice-input">
-              <label htmlFor="senderCountry">
-                <span>Country</span>
-                <span className="error">
-                  {errors?.senderAddress?.country?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="senderCountry"
-                {...register("senderAddress.country", {
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-                })}
-              />
-            </div>
+            <InvoiceInput
+              inputField="senderAddress.country"
+              id="senderCountry"
+              message="can't be empty"
+              fieldName="Country"
+              errorMessage={errors?.senderAddress?.country?.message}
+            />
           </div>
         </div>
         <div className="form-control">
-          <div className="invoice-input">
-            <label htmlFor="clientName">client name</label>
-            <input
-              type="text"
-              id="clientName"
-              {...register("clientName", {
-                required: { value: true, message: "can't be empty" },
-              })}
-            />
-            <span className="error">{errors?.clientName?.message}</span>
-          </div>
+          <InvoiceInput
+            inputField="clientName"
+            id="client name"
+            message="can't be empty"
+            fieldName="Client Name"
+            errorMessage={errors?.clientName?.message}
+          />
         </div>
         <div className="form-control">
           <div className="invoice-input">

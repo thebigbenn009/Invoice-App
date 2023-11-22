@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -18,6 +18,7 @@ const AppProvider = ({ children }) => {
     setValue,
     watch,
   } = useForm();
+  const { errors } = formState;
   const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
@@ -71,6 +72,7 @@ const AppProvider = ({ children }) => {
         saveAsDraft,
         watch,
         onSubmit,
+        errors,
         handlePriceChange,
         handleQuantityChange,
       }}
