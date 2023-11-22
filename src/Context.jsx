@@ -9,44 +9,51 @@ const AppProvider = ({ children }) => {
     invoiceData: [...jsonData],
   };
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { register, control, handleSubmit, formState, getValues } = useForm({
-    defaultValues: {
-      clientName: "Jensen Huang",
-      clientEmail: "jensenh@mail.com",
-      status: "paid",
-      createdAt: new Date(),
-      paymentDue: new Date(),
-      description: "Re-branding",
-      senderAddress: {
-        street: "19 Union Terrace",
-        city: "London",
-        postCode: "E1 3EZ",
-        country: "United Kingdom",
-      },
-      clientAddress: {
-        street: "106 Kendell Street",
-        city: "Sharrington",
-        postCode: "NR24 5WQ",
-        country: "United Kingdom",
-      },
-      items: [
-        {
-          name: "",
-          quantity: 0,
-          price: 0,
-        },
-      ],
-    },
-  });
-  const { fields, append, remove } = useFieldArray({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    getValues,
+    setValue,
+    watch,
+  } = useForm();
+  const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
   });
-  const handleGetValues = () => {
-    console.log(getValues());
+  const onSubmit = (data) => {
+    const itemsArray = watch("items");
+    if (itemsArray.length === 0) {
+      console.log("items must be placed");
+      return;
+    }
+    console.log(data);
   };
-  const onError = (error) => {
-    console.log(error);
+  const saveAsDraft = (data) => {
+    const enteredClientName = watch("clientName");
+    if (enteredClientName) {
+      console.log(getValues());
+    } else {
+      alert("Please fill out the Name field before saving to drafts.");
+    }
+  };
+
+  //function to handle price change and update total dynamically
+  const handlePriceChange = (index, value) => {
+    setValue(`items.${index}.price`, value, { shouldValidate: true });
+    const quantity = watch(`items.${index}.quantity`);
+    if (quantity !== undefined) {
+      setValue(`items.${index}.total`, value * quantity);
+    }
+  };
+  //function to handle quantity change and update total dynamically
+  const handleQuantityChange = (index, value) => {
+    setValue(`items.${index}.quantity`, value, { shouldValidate: true });
+    const price = watch(`items.${index}.price`);
+    if (price !== undefined) {
+      setValue(`items.${index}.total`, value * price);
+    }
   };
   return (
     <AppContext.Provider
@@ -57,13 +64,15 @@ const AppProvider = ({ children }) => {
         handleSubmit,
         formState,
         getValues,
+        setValue,
         fields,
-        append,
+        insert,
         remove,
-        handleGetValues,
-        useForm,
-        useFieldArray,
-        onError,
+        saveAsDraft,
+        watch,
+        onSubmit,
+        handlePriceChange,
+        handleQuantityChange,
       }}
     >
       {children}

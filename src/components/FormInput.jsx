@@ -1,72 +1,25 @@
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { useGlobalContext } from "../Context";
 const FormInput = () => {
   const {
     register,
     control,
     handleSubmit,
     formState,
-
-    setValue,
+    insert,
+    fields,
     watch,
-  } = useForm({
-    // defaultValues: {
-    //   clientName: "Jensen Huang",
-    //   clientEmail: "jensenh@mail.com",
-    //   status: "paid",
-    //   createdAt: new Date(),
-    //   paymentDue: new Date(),
-    //   description: "Re-branding",
-    //   senderAddress: {
-    //     street: "",
-    //     city: "London",
-    //     postCode: "E1 3EZ",
-    //     country: "United Kingdom",
-    //   },
-    //   clientAddress: {
-    //     street: "106 Kendell Street",
-    //     city: "Sharrington",
-    //     postCode: "NR24 5WQ",
-    //     country: "United Kingdom",
-    //   },
-    //   items: [
-    //     {
-    //       name: "",
-    //       quantity: "",
-    //       price: "",
-    //       // totalAmount: 0,
-    //     },
-    //   ],
-    // },
-  });
-  const saveAsDraft = (data) => {
-    console.log(data);
-  };
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+    remove,
+    onSubmit,
+    saveAsDraft,
+    handlePriceChange,
+    handleQuantityChange,
+  } = useGlobalContext();
+
   const { errors } = formState;
-  const { remove, fields, insert } = useFieldArray({
-    name: "items",
-    control,
-  });
-  //function to handle price change and update total dynamically
-  const handlePriceChange = (index, value) => {
-    setValue(`items.${index}.price`, value, { shouldValidate: true });
-    const quantity = watch(`items.${index}.quantity`);
-    if (quantity !== undefined) {
-      setValue(`items.${index}.total`, value * quantity);
-    }
-  };
-  //function to handle quantity change and update total dynamically
-  const handleQuantityChange = (index, value) => {
-    setValue(`items.${index}.quantity`, value, { shouldValidate: true });
-    const price = watch(`items.${index}.price`);
-    if (price !== undefined) {
-      setValue(`items.${index}.total`, value * price);
-    }
-  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -409,7 +362,7 @@ const FormInput = () => {
               onClick={() => {
                 insert(0, {
                   name: "",
-                  qty: "",
+                  quantity: "",
                   price: "",
                   total: 0,
                 });
@@ -427,7 +380,11 @@ const FormInput = () => {
             </button>
           </div>
           <div className="btn-others">
-            <button type="button" className="btn btn-draft">
+            <button
+              onClick={saveAsDraft}
+              type="button"
+              className="btn btn-draft"
+            >
               Save as Draft
             </button>
             <button type="submit" className="btn btn-send">
