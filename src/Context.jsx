@@ -1,64 +1,86 @@
-import React, { createContext, useContext, useState, useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import { jsonData } from "./data";
-
 import reducer from "./redcuer";
-
+import { useFieldArray, useForm } from "react-hook-form";
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const initialState = {
     invoiceData: [...jsonData],
-    inputData: {
-      clientName: "",
-      clientEmail: "",
-      senderStreet: "",
-      senderCity: "",
-      senderPostCode: "",
-      senderCountry: "",
-      clientStreet: "",
-      clientCity: "",
-      clientPostCode: "",
-      clientCountry: "",
-      dueDate: "",
-      projectDescription: "",
-      items: [],
-      itemName: "",
-      itemQuantity: "",
-      itemPrice: "",
-    },
-    incompleteForm: "",
   };
   const [state, dispatch] = useReducer(reducer, initialState);
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    dispatch({ type: "UPDATE_INPUT", payload: { name, value } });
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    getValues,
+    setValue,
+    watch,
+    reset,
+  } = useForm();
+  const { errors } = formState;
+  const { remove, fields, insert } = useFieldArray({
+    name: "items",
+    control,
+  });
+  const onSubmit = (data) => {
+    const itemsArray = watch("items");
+    if (itemsArray.length === 0) {
+      console.log("items must be placed");
+      return;
+    }
+    console.log(data);
   };
-
-  const addNewItem = (e) => {
-    e.preventDefault();
-    dispatch({ type: "ADD_NEW_ITEM", payload: state.inputData });
+  //function to handle save to drafts
+  const saveAsDraft = (data) => {
+    const enteredClientName = watch("clientName");
+    if (enteredClientName) {
+      console.log(getValues());
+    } else {
+      alert("Please fill out the Name field before saving to drafts.");
+    }
   };
-
-  const handleSubmitBtn = (e) => {
-    e.preventDefault();
-
-    dispatch({ type: "SUBMIT_FORM" });
+  //function to handle save to drafts
+  const resetField = () => {
+    reset();
   };
-
-  const saveAsDraft = (e) => {
-    e.preventDefault();
-    dispatch({ type: "SAVE_AS_DRAFT" });
+  //function to handle price change and update total dynamically
+  const handlePriceChange = (index, value) => {
+    setValue(`items.${index}.price`, value, { shouldValidate: true });
+    const quantity = watch(`items.${index}.quantity`);
+    if (quantity !== undefined) {
+      setValue(`items.${index}.total`, value * quantity);
+    }
+  };
+  //function to handle quantity change and update total dynamically
+  const handleQuantityChange = (index, value) => {
+    setValue(`items.${index}.quantity`, value, { shouldValidate: true });
+    const price = watch(`items.${index}.price`);
+    if (price !== undefined) {
+      setValue(`items.${index}.total`, value * price);
+    }
   };
   return (
     <AppContext.Provider
       value={{
-        saveAsDraft,
-
-        handleInputChange,
-        handleSubmitBtn,
-        addNewItem,
-
         ...state,
+        register,
+        control,
+        handleSubmit,
+        formState,
+        getValues,
+        setValue,
+        fields,
+        insert,
+        remove,
+        saveAsDraft,
+        watch,
+        onSubmit,
+        errors,
+        handlePriceChange,
+        handleQuantityChange,
+        resetField,
       }}
     >
       {children}

@@ -1,40 +1,20 @@
 import React from "react";
 import { useGlobalContext } from "../Context";
 
-const AddNewItem = ({ itemIndex }) => {
-  const { handleInputChange, inputData } = useGlobalContext();
-  const { itemQuantity, itemPrice, itemName, itemTotal } = inputData;
+const AddNewItem = () => {
   return (
     <div className="new-item">
       <div className="new-item-name item-name">
         <p>Item Name</p>
-        <input
-          type="text"
-          name="itemName"
-          value={itemName}
-          onChange={handleInputChange}
-        />
+        <input type="text" />
       </div>
       <div className="new-item-name quantity">
         <p>Qty.</p>
-        <input
-          type="number"
-          name="itemQuantity"
-          value={itemQuantity}
-          onChange={handleInputChange}
-        />
+        <input type="number" />
       </div>
       <div className="new-item-name item-price">
         <p>Price</p>
-        <input
-          type="number"
-          name="itemPrice"
-          value={itemPrice}
-          onChange={handleInputChange}
-          // name={`items[${itemIndex}].price`}
-          // value={item[price]}
-          // onChange={(e) => handleInputChange(e, itemIndex)}
-        />
+        <input type="number" />
       </div>
       <div className="new-item-name item-total ">
         <p>Total</p>
