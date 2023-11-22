@@ -17,6 +17,7 @@ const AppProvider = ({ children }) => {
     getValues,
     setValue,
     watch,
+    reset,
   } = useForm();
   const { errors } = formState;
   const { remove, fields, insert } = useFieldArray({
@@ -31,6 +32,7 @@ const AppProvider = ({ children }) => {
     }
     console.log(data);
   };
+  //function to handle save to drafts
   const saveAsDraft = (data) => {
     const enteredClientName = watch("clientName");
     if (enteredClientName) {
@@ -39,7 +41,10 @@ const AppProvider = ({ children }) => {
       alert("Please fill out the Name field before saving to drafts.");
     }
   };
-
+  //function to handle save to drafts
+  const resetField = () => {
+    reset();
+  };
   //function to handle price change and update total dynamically
   const handlePriceChange = (index, value) => {
     setValue(`items.${index}.price`, value, { shouldValidate: true });
@@ -75,6 +80,7 @@ const AppProvider = ({ children }) => {
         errors,
         handlePriceChange,
         handleQuantityChange,
+        resetField,
       }}
     >
       {children}

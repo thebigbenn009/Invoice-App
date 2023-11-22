@@ -16,6 +16,7 @@ const FormInput = () => {
     saveAsDraft,
     handlePriceChange,
     handleQuantityChange,
+    resetField,
   } = useGlobalContext();
 
   const { errors } = formState;
@@ -254,7 +255,11 @@ const FormInput = () => {
 
         <div className="btn-container">
           <div className="btn-discard">
-            <button type="button" className="btn btn-discard">
+            <button
+              onClick={resetField}
+              type="button"
+              className="btn btn-discard"
+            >
               Discard
             </button>
           </div>
