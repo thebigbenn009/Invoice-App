@@ -31,8 +31,6 @@ const InvoiceInput = ({
             },
             ...validationRules,
           })}
-          onChange={onChangeHandler}
-          value={handleValue}
           readOnly={readOnly}
         />
       </div>

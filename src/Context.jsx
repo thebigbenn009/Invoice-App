@@ -29,14 +29,14 @@ const AppProvider = ({ children }) => {
       console.log("items must be placed");
       return;
     }
-    // setInvoiceData((prevInvoice) => {
-    //   const newInvoice = {
-    //     id: generateUniqueId(prevInvoice),
-    //     status: "pending",
-    //     ...data,
-    //   };
-    //   return [...prevInvoice, newInvoice];
-    // });
+    setInvoiceData((prevInvoice) => {
+      const newInvoice = {
+        id: generateUniqueId(prevInvoice),
+        status: "pending",
+        ...data,
+      };
+      return [...prevInvoice, newInvoice];
+    });
     console.log(data);
   };
   //function to handle save to drafts
@@ -48,7 +48,7 @@ const AppProvider = ({ children }) => {
       alert("Please fill out the Name field before saving to drafts.");
     }
   };
-  //function to handle save to drafts
+  //function to handle save to reset fields
   const resetField = () => {
     reset();
   };

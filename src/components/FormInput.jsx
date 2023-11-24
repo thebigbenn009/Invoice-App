@@ -7,7 +7,7 @@ const FormInput = () => {
     register,
     control,
     handleSubmit,
-    formState,
+    errors,
     insert,
     fields,
     watch,
@@ -19,21 +19,24 @@ const FormInput = () => {
     resetField,
   } = useGlobalContext();
 
-  const { errors } = formState;
+  // const { errors } = formState;
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form-control">
           <h4>Bill From</h4>
+
           <InvoiceInput
             inputField="senderAddress.street"
-            id="senderAddress"
-            fieldName="Sender Address"
+            id="senderAddress.street"
             message="can't be empty"
+            fieldName="Sender Street"
             errorMessage={errors?.senderAddress?.street?.message}
           />
-          <div className="form-3-col">
+        </div>
+        <div className="form-3-col">
+          <div className="form-control">
             <InvoiceInput
               inputField="senderAddress.city"
               id="senderCity"
@@ -41,256 +44,240 @@ const FormInput = () => {
               fieldName="Sender City"
               errorMessage={errors?.senderAddress?.city?.message}
             />
-
-            <div className="invoice-input">
-              <label htmlFor="senderPostcode">
-                <span>Post code</span>
-                <span className="error">
-                  {errors?.senderAddress?.postCode?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="senderPostcode"
-                {...register("senderAddress.postCode", {
-                  // valueAsNumber: true,
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-
-                  pattern: {
-                    value: /^\d{1,6}$/,
-                    message: "Please enter a number",
-                  },
-                  maxLength: {
-                    value: 6,
-                    message: "Postal code must be 6 characters or less",
-                  },
-                })}
-              />
-            </div>
+          </div>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="senderAddress.postCode"
+              id="senderPostCode"
+              message="can't be empty"
+              fieldName="Post code"
+              errorMessage={errors?.senderAddress?.postCode?.message}
+              validationRules={{
+                pattern: {
+                  value: /^\d{1,6}$/,
+                  message: "Please enter a number",
+                },
+                maxLength: {
+                  value: 6,
+                  message: "Postal code must be 6 characters or less",
+                },
+              }}
+            />
+          </div>
+          <div className="form-control">
             <InvoiceInput
               inputField="senderAddress.country"
               id="senderCountry"
               message="can't be empty"
-              fieldName="Country"
+              fieldName="country"
               errorMessage={errors?.senderAddress?.country?.message}
             />
           </div>
         </div>
         <div className="form-control">
+          <h4>Bill to</h4>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientName"
+              id="clientName"
+              message="can't be empty"
+              fieldName="Client's Name"
+              errorMessage={errors?.clientName?.message}
+            />
+          </div>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientEmail"
+              id="clientEmail"
+              message="can't be empty"
+              fieldName="Client's Email"
+              errorMessage={errors?.clientEmail?.message}
+              validationRules={{
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "Invalid email address",
+                },
+              }}
+            />
+          </div>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientAddress.street"
+              id="clientStreet"
+              message="can't be empty"
+              fieldName="Client Street"
+              errorMessage={errors?.clientAddress?.street?.message}
+            />
+          </div>
+        </div>
+        <div className="form-3-col">
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientAddress.city"
+              id="clientCity"
+              message="can't be empty"
+              fieldName="Client city"
+              errorMessage={errors?.clientAddress?.city?.message}
+            />
+          </div>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientAddress.postCode"
+              id="clientPostCode"
+              message="can't be empty"
+              fieldName="Post Code"
+              errorMessage={errors?.clientAddress?.postCode?.message}
+            />
+          </div>
+          <div className="form-control">
+            <InvoiceInput
+              inputField="clientAddress.country"
+              id="clientCountry"
+              message="can't be empty"
+              fieldName="Client country"
+              errorMessage={errors?.clientAddress?.country?.message}
+            />
+          </div>
+        </div>
+        <div className="form-2-col">
           <InvoiceInput
-            inputField="clientName"
-            id="client name"
+            inputField="createdAt"
+            type="date"
+            id="createdAt"
             message="can't be empty"
-            fieldName="Client Name"
-            errorMessage={errors?.clientName?.message}
+            fieldName="Invoice Date"
+            errorMessage={errors?.createdAt?.message}
+          />
+          <div className="invoice-input">
+            <label htmlFor="paymentDue">
+              <span>Payment Terms</span>
+              <span className="error">{errors?.paymentDue?.message}</span>
+            </label>
+            <select
+              {...register("paymentDue", {
+                required: {
+                  value: true,
+                  message: "required",
+                },
+              })}
+              id=""
+            >
+              <option value="">Payment Terms</option>
+              <option value="7 days">Next 7 Days</option>
+              <option value="14 days">Next 14 Days</option>
+              <option value="30 days">Next 30 Days</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-control">
+          <InvoiceInput
+            inputField="description"
+            type="text"
+            id="description"
+            message="can't be empty"
+            fieldName="Project Description"
+            errorMessage={errors?.description?.message}
           />
         </div>
         <div className="form-control">
-          <div className="invoice-input">
-            <label htmlFor="clientEmail">client email</label>
-            <input
-              type="text"
-              id="clientEmail"
-              {...register("clientName", {
-                required: { value: true, message: "can't be empty" },
-              })}
-            />
-            <span className="error">{errors?.clientName?.message}</span>
-          </div>
-        </div>
-        <div className="form-control">
-          <h4>Bill to</h4>
-          <div className="invoice-input">
-            <label htmlFor="clientStreet">
-              <span>Address</span>
-              <span className="error">
-                {errors?.clientAddress?.street?.message}
-              </span>
-            </label>
-            <input
-              type="text"
-              id="clientStreet"
-              {...register("clientAddress.street", {
-                required: {
-                  value: true,
-                  message: "can't be empty",
-                },
-              })}
-            />
-          </div>
-          <div className="form-3-col">
-            <div className="invoice-input">
-              <label htmlFor="clientCity">
-                <span>city</span>
-                <span className="error">
-                  {errors?.clientAddress?.city?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="clientCity"
-                {...register("clientAddress.city", {
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-                })}
-              />
-            </div>
-            <div className="invoice-input">
-              <label htmlFor="clientPostCode">
-                <span>Post code</span>
-                <span className="error">
-                  {errors?.clientAddress?.postCode?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="clientPostCode"
-                {...register("clientAddress.postCode", {
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-
-                  pattern: {
-                    value: /^\d{1,6}$/,
-                    message: "Please enter a number",
-                  },
-                  maxLength: {
-                    value: 6,
-                    message: "Postal code must be 6 characters or less",
-                  },
-                })}
-              />
-            </div>
-            <div className="invoice-input">
-              <label htmlFor="clientCountry">
-                <span>country</span>
-                <span className="error">
-                  {errors?.clientAddress?.country?.message}
-                </span>
-              </label>
-              <input
-                type="text"
-                id="clientCountry"
-                {...register("clientAddress.country", {
-                  required: {
-                    value: true,
-                    message: "can't be empty",
-                  },
-                })}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="form-control">
-          <div className="form-2-col">
-            <InvoiceInput
-              inputField="createdAt"
-              id="createdAt"
-              message="can't be empty"
-              fieldName="Invoice Date"
-              errorMessage={errors?.createdAt?.message}
-              type="date"
-            />
-
-            <div className="invoice-input">
-              <label htmlFor="paymentDue">
-                <span>Payment Terms</span>
-                <span className="error">{errors?.paymentDue?.message}</span>
-              </label>
-              <select
-                {...register("paymentDue", {
-                  required: {
-                    value: true,
-                    message: "required",
-                  },
-                })}
-                id=""
-              >
-                <option value="">Payment Terms</option>
-                <option value="7 days">Next 7 Days</option>
-                <option value="14 days">Next 14 Days</option>
-                <option value="30 days">Next 30 Days</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div className="form-control">
           <h4>Items</h4>
-          {fields.map((field, index) => (
-            <div key={field.id} className="form-4-col">
-              <InvoiceInput
-                inputField={`items.${index}.name`}
-                id={`items.${index}.name`}
-                message="item name required"
-                fieldName="Item"
-                errorMessage={errors?.items?.[index]?.name?.message}
-                type="text"
-              />
-              <InvoiceInput
-                inputField={`items.${index}.quantity`}
-                id={`items.${index}.quantity`}
-                message="specify quantity"
-                fieldName="Qty"
-                errorMessage={errors?.items?.[index]?.quantity?.message}
-                type="text"
-                validationRules={{
-                  pattern: {
-                    value: /^\d{1,5}$/,
-                    message: "Please enter a number",
-                  },
-                }}
-                onChangeHandler={(e) =>
-                  handleQuantityChange(index, e.target.value)
-                }
-              />
-
-              <InvoiceInput
-                inputField={`items.${index}.price`}
-                id={`items.${index}.price`}
-                message="specify price"
-                fieldName="Price"
-                errorMessage={errors?.items?.[index]?.price?.message}
-                type="text"
-                validationRules={{
-                  pattern: {
-                    value: /^\d{1,5}$/,
-                    message: "Please enter a number",
-                  },
-                }}
-                onChangeHandler={(e) =>
-                  handlePriceChange(index, e.target.value)
-                }
-              />
-              <InvoiceInput
-                inputField={`items.${index}.total`}
-                id={`items.${index}.total`}
-                fieldName="Total"
-                type="number"
-                handleValue={watch(`items.${index}.total`, 0)}
-                readOnly
-              />
-
-              <svg
-                className="remove-item"
-                onClick={() => remove(index)}
-                width="13"
-                height="16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11.583 3.556v10.666c0 .982-.795 1.778-1.777 1.778H2.694a1.777 1.777 0 01-1.777-1.778V3.556h10.666zM8.473 0l.888.889h3.111v1.778H.028V.889h3.11L4.029 0h4.444z"
-                  fill="#888EB0"
-                  fill-rule="nonzero"
-                />
-              </svg>
-            </div>
-          ))}
+          {fields.map((field, index) => {
+            return (
+              <div key={field.id} className="form-4-col">
+                <div className="invoice-input">
+                  <label htmlFor="name">
+                    <span>Item</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    {...register(`items.${index}.name`, {
+                      required: {
+                        value: true,
+                        message: "required",
+                      },
+                    })}
+                  />
+                  <span className="error">
+                    {errors?.items?.[index]?.name?.message}
+                  </span>
+                </div>
+                <div className="invoice-input">
+                  <label htmlFor="quantity">
+                    <span>Qty</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="quantity"
+                    {...register(`items.${index}.quantity`, {
+                      required: {
+                        value: true,
+                        message: "required",
+                      },
+                      pattern: {
+                        value: /^\d{1,5}$/,
+                        message: "Please enter a number",
+                      },
+                    })}
+                    onChange={(e) =>
+                      handleQuantityChange(index, e.target.value)
+                    }
+                  />
+                  <span className="error">
+                    {errors?.items?.[index]?.quantity?.message}
+                  </span>
+                </div>
+                <div className="invoice-input">
+                  <label htmlFor="price">
+                    <span>Price</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="price"
+                    {...register(`items.${index}.price`, {
+                      required: {
+                        value: true,
+                        message: "required",
+                      },
+                      pattern: {
+                        value: /^\d{1,5}$/,
+                        message: "Please enter a number",
+                      },
+                    })}
+                    onChange={(e) => handlePriceChange(index, e.target.value)}
+                  />
+                  <span className="error">
+                    {errors?.items?.[index]?.price?.message}
+                  </span>
+                </div>
+                <div className="invoice-input">
+                  <label htmlFor="total">
+                    <span>Total</span>
+                  </label>
+                  <input
+                    type="number"
+                    readOnly
+                    id="total"
+                    {...register(`items[${index}].total`)}
+                    value={watch(`items.${index}.total`, 0)}
+                  />
+                </div>
+                <svg
+                  className="remove-item"
+                  onClick={() => remove(index)}
+                  width="13"
+                  height="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.583 3.556v10.666c0 .982-.795 1.778-1.777 1.778H2.694a1.777 1.777 0 01-1.777-1.778V3.556h10.666zM8.473 0l.888.889h3.111v1.778H.028V.889h3.11L4.029 0h4.444z"
+                    fill="#888EB0"
+                    fill-rule="nonzero"
+                  />
+                </svg>
+              </div>
+            );
+          })}
           <div>
             <button
               className="btn  btn-add"
@@ -308,7 +295,6 @@ const FormInput = () => {
             </button>
           </div>
         </div>
-
         <div className="btn-container">
           <div className="btn-discard">
             <button
