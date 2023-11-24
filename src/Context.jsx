@@ -37,6 +37,7 @@ const AppProvider = ({ children }) => {
       };
       return [...prevInvoice, newInvoice];
     });
+    reset();
     console.log(data);
   };
   //function to handle save to drafts

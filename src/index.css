@@ -49,7 +49,9 @@ html {
   margin-inline: auto; */
   color: var(--white);
 }
-
+body {
+  background-color: var(--deep-blue-1);
+}
 .main-section {
   width: 100%;
   background-color: var(--deep-blue-1);
@@ -351,6 +353,10 @@ select {
 .btn-send {
   background-color: var(--primary-purple);
   color: var(--white);
+}
+.router-link {
+  color: inherit;
+  text-decoration: inherit;
 }
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
