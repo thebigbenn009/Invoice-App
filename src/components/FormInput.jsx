@@ -41,24 +41,35 @@ const FormInput = () => {
               fieldName="Sender City"
               errorMessage={errors?.senderAddress?.city?.message}
             />
-            <InvoiceInput
-              inputField="senderAddress.postCode"
-              id="senderPostCode"
-              message="can't be empty"
-              fieldName="Post Code"
-              errorMessage={errors?.senderAddress?.postCode?.message}
-              validationRules={{
-                pattern: {
-                  value: /^\d{1,6}$/,
-                  message: "Please enter a number",
-                },
-                maxLength: {
-                  value: 6,
-                  message: "Postal code must be 6 characters or less",
-                },
-              }}
-            />
 
+            <div className="invoice-input">
+              <label htmlFor="senderPostcode">
+                <span>Post code</span>
+                <span className="error">
+                  {errors?.senderAddress?.postCode?.message}
+                </span>
+              </label>
+              <input
+                type="text"
+                id="senderPostcode"
+                {...register("senderAddress.postCode", {
+                  // valueAsNumber: true,
+                  required: {
+                    value: true,
+                    message: "can't be empty",
+                  },
+
+                  pattern: {
+                    value: /^\d{1,6}$/,
+                    message: "Please enter a number",
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: "Postal code must be 6 characters or less",
+                  },
+                })}
+              />
+            </div>
             <InvoiceInput
               inputField="senderAddress.country"
               id="senderCountry"
@@ -78,57 +89,102 @@ const FormInput = () => {
           />
         </div>
         <div className="form-control">
-          <InvoiceInput
-            inputField="clientEmail"
-            id="client email"
-            message="can't be empty"
-            fieldName="Client Email"
-            errorMessage={errors?.clientEmail?.message}
-          />
+          <div className="invoice-input">
+            <label htmlFor="clientEmail">client email</label>
+            <input
+              type="text"
+              id="clientEmail"
+              {...register("clientName", {
+                required: { value: true, message: "can't be empty" },
+              })}
+            />
+            <span className="error">{errors?.clientName?.message}</span>
+          </div>
         </div>
         <div className="form-control">
           <h4>Bill to</h4>
-          <InvoiceInput
-            inputField="clientAddress.street"
-            id="client Address"
-            message="can't be empty"
-            fieldName="Client Name"
-            errorMessage={errors?.clientAddress?.street?.message}
-          />
-
+          <div className="invoice-input">
+            <label htmlFor="clientStreet">
+              <span>Address</span>
+              <span className="error">
+                {errors?.clientAddress?.street?.message}
+              </span>
+            </label>
+            <input
+              type="text"
+              id="clientStreet"
+              {...register("clientAddress.street", {
+                required: {
+                  value: true,
+                  message: "can't be empty",
+                },
+              })}
+            />
+          </div>
           <div className="form-3-col">
-            <InvoiceInput
-              inputField="clientAddress.city"
-              id="client city"
-              message="can't be empty"
-              fieldName="Client City"
-              errorMessage={errors?.clientAddress?.city?.message}
-            />
+            <div className="invoice-input">
+              <label htmlFor="clientCity">
+                <span>city</span>
+                <span className="error">
+                  {errors?.clientAddress?.city?.message}
+                </span>
+              </label>
+              <input
+                type="text"
+                id="clientCity"
+                {...register("clientAddress.city", {
+                  required: {
+                    value: true,
+                    message: "can't be empty",
+                  },
+                })}
+              />
+            </div>
+            <div className="invoice-input">
+              <label htmlFor="clientPostCode">
+                <span>Post code</span>
+                <span className="error">
+                  {errors?.clientAddress?.postCode?.message}
+                </span>
+              </label>
+              <input
+                type="text"
+                id="clientPostCode"
+                {...register("clientAddress.postCode", {
+                  required: {
+                    value: true,
+                    message: "can't be empty",
+                  },
 
-            <InvoiceInput
-              inputField="clientAddress.postCode"
-              id="clientPostCode"
-              message="can't be empty"
-              fieldName="Post Code"
-              errorMessage={errors?.clientAddress?.postCode?.message}
-              validationRules={{
-                pattern: {
-                  value: /^\d{1,6}$/,
-                  message: "Please enter a number",
-                },
-                maxLength: {
-                  value: 6,
-                  message: "Postal code must be 6 characters or less",
-                },
-              }}
-            />
-            <InvoiceInput
-              inputField="clientAddress.country"
-              id="client country"
-              message="can't be empty"
-              fieldName="Country"
-              errorMessage={errors?.clientAddress?.country?.message}
-            />
+                  pattern: {
+                    value: /^\d{1,6}$/,
+                    message: "Please enter a number",
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: "Postal code must be 6 characters or less",
+                  },
+                })}
+              />
+            </div>
+            <div className="invoice-input">
+              <label htmlFor="clientCountry">
+                <span>country</span>
+                <span className="error">
+                  {errors?.clientAddress?.country?.message}
+                </span>
+              </label>
+              <input
+                type="text"
+                id="clientCountry"
+                {...register("clientAddress.country", {
+                  required: {
+                    value: true,
+                    message: "can't be empty",
+                  },
+                })}
+              />
+            </div>
           </div>
         </div>
         <div className="form-control">
