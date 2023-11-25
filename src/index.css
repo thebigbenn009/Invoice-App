@@ -101,8 +101,8 @@ header {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  padding-left: 0.7rem;
+  padding: 0.9rem 1.8rem;
+  /* padding-left: 0.7rem; */
   align-self: center;
   border-radius: 1000rem;
   cursor: pointer;
@@ -120,6 +120,7 @@ header {
 .invoice-btn {
   color: var(--white);
   background-color: var(--primary-purple);
+  padding-inline: 1.2rem;
 }
 
 .btn-svg {
@@ -199,7 +200,7 @@ select option :active {
   /* display: flex; */
   /* align-items: center;
   justify-self: flex-start; */
-  text-align: center;
+  text-align: left;
 
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -354,10 +355,46 @@ select {
   background-color: var(--primary-purple);
   color: var(--white);
 }
+.btn-info-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: end;
+}
 .router-link {
   color: inherit;
   text-decoration: inherit;
 }
+.router-link span {
+  font-size: 1.2rem;
+}
+.router-link span:not(:last-child) {
+  margin-right: 1rem;
+}
+/* ///////////////////////SINGLE INVOICE////////////// */
+.single-invoice {
+  width: 45vw;
+  margin-inline: auto;
+  /* background-color: goldenrod; */
+  padding-top: 4rem;
+}
+.info-bar {
+  display: grid;
+  margin-top: 2rem;
+  grid-template-columns: 1fr 1fr;
+  padding: 1.2rem 1.8rem;
+  border-radius: 5px;
+  background-color: var(--purple-1);
+}
+.status-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.single-info-status {
+  display: inline-block;
+  width: 40%;
+}
+
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
   html {

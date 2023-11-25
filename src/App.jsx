@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       },
       {
         element: <SingleInvoice />,
-        // path: "singleInvoice/:id",
+        path: "singleInvoice/:id",
       },
     ],
   },

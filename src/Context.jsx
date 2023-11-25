@@ -7,6 +7,7 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState([...jsonData]);
+  const [singleInvoice, setSingleInvoice] = useState({});
 
   const {
     register,
@@ -69,6 +70,11 @@ const AppProvider = ({ children }) => {
       setValue(`items.${index}.total`, value * price);
     }
   };
+
+  const getSingleInvoice = (id) => {
+    const singleId = invoiceData.find((invoice) => invoice.id === id);
+    setSingleInvoice(singleId);
+  };
   return (
     <AppContext.Provider
       value={{
@@ -90,6 +96,8 @@ const AppProvider = ({ children }) => {
         handlePriceChange,
         handleQuantityChange,
         resetField,
+        getSingleInvoice,
+        singleInvoice,
       }}
     >
       {children}
