@@ -463,6 +463,10 @@ select {
   display: inline-block;
   text-align: center;
 }
+.text-center,
+.text-right {
+  color: var(--grey-1);
+}
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
   html {
