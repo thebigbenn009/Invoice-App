@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import InfoBar from "./InfoBar";
 import { useGlobalContext } from "../Context";
+import InvoiceDetails from "./InvoiceDetails";
 const SingleInvoice = () => {
   const { singleInvoice } = useGlobalContext();
   return (
@@ -41,6 +42,7 @@ const SingleInvoice = () => {
             : ""
         }`}
       />
+      <InvoiceDetails singleInvoice={singleInvoice} />
     </section>
   );
 };
