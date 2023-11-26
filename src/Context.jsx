@@ -20,6 +20,7 @@ const AppProvider = ({ children }) => {
     handleSubmit,
     formState,
     getValues,
+    setError,
     setValue,
     watch,
     reset,
@@ -31,6 +32,7 @@ const AppProvider = ({ children }) => {
   });
   const onSubmit = (data) => {
     const itemsArray = watch("items");
+
     if (itemsArray.length === 0) {
       console.log("items must be placed");
       return;
@@ -48,10 +50,15 @@ const AppProvider = ({ children }) => {
   };
   //function to handle save to drafts
   const saveAsDraft = (data) => {
-    const enteredClientName = watch("clientName");
+    const enteredClientName = getValues("clientName");
+
     if (enteredClientName) {
       console.log(getValues());
     } else {
+      // setError("clientName", {
+      //   type: "manual",
+      //   message: "clientName required",
+      // });
       alert("Please fill out the Name field before saving to drafts.");
     }
   };
@@ -107,7 +114,7 @@ const AppProvider = ({ children }) => {
         console.error("Error fetching data: ", error);
       }
     };
-    fetchCountrySymbol("Canada");
+    // fetchCountrySymbol("Canada");
   }, []);
   return (
     <AppContext.Provider
@@ -127,6 +134,7 @@ const AppProvider = ({ children }) => {
         watch,
         onSubmit,
         errors,
+        setError,
         handlePriceChange,
         handleQuantityChange,
         resetField,
