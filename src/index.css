@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat:wght@200;400;600;700;800&family=Nunito+Sans:ital,wght@0,200;0,300;0,600;1,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=League+Spartan:wght@400;500;700&family=Montserrat:wght@200;400;600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,600;1,6..12,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
+
 *,
 *::before,
 *::after {
@@ -34,6 +35,7 @@ a {
 html {
   font-size: 62.5%;
   font-family: "Lato", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-family: "Montserrat", sans-serif;
   font-family: "Nunito Sans", sans-serif;
   font-family: "Poppins", sans-serif;
@@ -432,7 +434,7 @@ select {
   /* background-color: orangered; */
 }
 .details-bold {
-  font-weight: 600;
+  font-weight: bold;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: #fff;
@@ -463,9 +465,25 @@ select {
   display: inline-block;
   text-align: center;
 }
-.text-center,
-.text-right {
+.grey-1 {
   color: var(--grey-1);
+}
+.total-price {
+  padding: 2.5rem;
+  background-color: var(--deep-blue-3);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+}
+.total-price p {
+  align-self: center;
+}
+.total-amount {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff;
 }
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {

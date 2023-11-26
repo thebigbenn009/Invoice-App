@@ -1,6 +1,7 @@
 import React from "react";
 import { useGlobalContext } from "../Context";
 import InvoiceItem from "./InvoiceItem";
+import TotalPrice from "./TotalPrice";
 
 const InvoiceDetails = ({ singleInvoice }) => {
   const {
@@ -74,6 +75,7 @@ const InvoiceDetails = ({ singleInvoice }) => {
           return <InvoiceItem key={index} {...item} />;
         })}
       </div>
+      <TotalPrice total={total} />
     </article>
   );
 };

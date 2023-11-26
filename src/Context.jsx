@@ -1,10 +1,15 @@
-import React, { createContext, useContext, useReducer, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+} from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
 import { generateUniqueId } from "./utils";
 const AppContext = createContext();
-
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState([...jsonData]);
   const [singleInvoice, setSingleInvoice] = useState({});
@@ -75,6 +80,35 @@ const AppProvider = ({ children }) => {
     const singleId = invoiceData.find((invoice) => invoice.id === id);
     setSingleInvoice(singleId);
   };
+  const countryAPI = `https://restcountries.com/v3.1/name/`;
+
+  // const [country, setCountry] = useState("");
+  // const [currencySymbol, setCurrencySymbol] = useState("");
+  useEffect(() => {
+    const fetchCountrySymbol = async (country) => {
+      try {
+        const response = await fetch(`${countryAPI}${country}`);
+        const data = await response.json();
+        // console.log(data);
+        if (data && data.length > 0) {
+          const currencies = data[0]?.currencies;
+          if (currencies) {
+            const curr = Object.keys(currencies)[0];
+
+            const { symbol } = currencies[curr];
+            console.log(symbol);
+          } else {
+            console.log("currency not found");
+          }
+        } else {
+          console.log("country not found");
+        }
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+    fetchCountrySymbol("Canada");
+  }, []);
   return (
     <AppContext.Provider
       value={{
