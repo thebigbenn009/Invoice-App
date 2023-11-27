@@ -2,6 +2,7 @@ import React from "react";
 import { DevTool } from "@hookform/devtools";
 import { useGlobalContext } from "../Context";
 import InvoiceInput from "./InvoiceInput";
+const countryAPI = `https://restcountries.com/v3.1/name/{name}?fullText=true`;
 const FormInput = () => {
   const {
     register,
@@ -136,6 +137,17 @@ const FormInput = () => {
               message="can't be empty"
               fieldName="Client country"
               errorMessage={errors?.clientAddress?.country?.message}
+              validationRules={{
+                validate: {
+                  validateCountryName: async (fieldValue) => {
+                    const response = await fetch(
+                      `https://restcountries.com/v3.1/name/${fieldValue}?fullText=true`
+                    );
+                    const data = await response.json();
+                    return data.length > 0 || "invalid country";
+                  },
+                },
+              }}
             />
           </div>
         </div>

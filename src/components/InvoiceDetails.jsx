@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../Context";
 import InvoiceItem from "./InvoiceItem";
 import TotalPrice from "./TotalPrice";
-
+import { useEffect, useState } from "react";
 const InvoiceDetails = ({ singleInvoice }) => {
   const {
     id,
@@ -18,7 +18,19 @@ const InvoiceDetails = ({ singleInvoice }) => {
     items,
     total,
   } = singleInvoice;
-
+  const { fetchCountrySymbol } = useGlobalContext();
+  const [currencySymbol, setCurrencySymbol] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const symbol = await fetchCountrySymbol(clientAddress.country);
+        setCurrencySymbol(symbol);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <article className="invoice-details">
       <div className="details-primary">
@@ -72,10 +84,17 @@ const InvoiceDetails = ({ singleInvoice }) => {
           <p className="text-right">Total</p>
         </div>
         {items.map((item, index) => {
-          return <InvoiceItem key={index} {...item} />;
+          return (
+            <InvoiceItem
+              key={index}
+              {...item}
+              price={`${currencySymbol}${item.price}`}
+              total={`${currencySymbol}${item.total}`}
+            />
+          );
         })}
       </div>
-      <TotalPrice total={total} />
+      <TotalPrice total={`${currencySymbol}${total}`} />
     </article>
   );
 };

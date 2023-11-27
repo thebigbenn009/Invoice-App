@@ -30,6 +30,34 @@ const AppProvider = ({ children }) => {
     name: "items",
     control,
   });
+  const fetchCountrySymbol = async (country) => {
+    try {
+      const response = await fetch(`${countryAPI}${country}`);
+      const data = await response.json();
+      console.log(data);
+      const currencies = data[0]?.currencies;
+      const curr = Object.keys(currencies)[0];
+      const { symbol } = currencies[curr];
+      console.log(symbol);
+      return symbol;
+      // if (data && data.length > 0) {
+      //   const currencies = data[0]?.currencies;
+      //   if (currencies) {
+      //     const curr = Object.keys(currencies)[0];
+
+      //     const { symbol } = currencies[curr];
+      //     console.log(symbol);
+      //   } else {
+      //     console.log("currency not found");
+      //   }
+      // } else {
+      //   console.log("country not found");
+
+      // }
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
   const onSubmit = (data) => {
     const itemsArray = watch("items");
 
@@ -92,29 +120,7 @@ const AppProvider = ({ children }) => {
   // const [country, setCountry] = useState("");
   // const [currencySymbol, setCurrencySymbol] = useState("");
   useEffect(() => {
-    const fetchCountrySymbol = async (country) => {
-      try {
-        const response = await fetch(`${countryAPI}${country}`);
-        const data = await response.json();
-        // console.log(data);
-        if (data && data.length > 0) {
-          const currencies = data[0]?.currencies;
-          if (currencies) {
-            const curr = Object.keys(currencies)[0];
-
-            const { symbol } = currencies[curr];
-            console.log(symbol);
-          } else {
-            console.log("currency not found");
-          }
-        } else {
-          console.log("country not found");
-        }
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-    // fetchCountrySymbol("Canada");
+    // fetchCountrySymbol("South Afr");
   }, []);
   return (
     <AppContext.Provider
@@ -140,6 +146,7 @@ const AppProvider = ({ children }) => {
         resetField,
         getSingleInvoice,
         singleInvoice,
+        fetchCountrySymbol,
       }}
     >
       {children}
