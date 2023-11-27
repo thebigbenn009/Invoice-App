@@ -40,20 +40,6 @@ const AppProvider = ({ children }) => {
       const { symbol } = currencies[curr];
       console.log(symbol);
       return symbol;
-      // if (data && data.length > 0) {
-      //   const currencies = data[0]?.currencies;
-      //   if (currencies) {
-      //     const curr = Object.keys(currencies)[0];
-
-      //     const { symbol } = currencies[curr];
-      //     console.log(symbol);
-      //   } else {
-      //     console.log("currency not found");
-      //   }
-      // } else {
-      //   console.log("country not found");
-
-      // }
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -69,7 +55,9 @@ const AppProvider = ({ children }) => {
       const newInvoice = {
         id: generateUniqueId(prevInvoice),
         status: "pending",
+
         ...data,
+        total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
       };
       return [...prevInvoice, newInvoice];
     });

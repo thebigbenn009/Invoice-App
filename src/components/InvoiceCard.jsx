@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 
@@ -11,8 +12,20 @@ const InvoiceCard = ({
   backgroundColor,
   color,
 }) => {
-  const { getSingleInvoice } = useGlobalContext();
-  const total = items.map((item) => item.total).reduce((a, b) => a + b, 0);
+  const { getSingleInvoice, fetchCountrySymbol } = useGlobalContext();
+  const [currencySymbol, setCurrencySymbol] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const symbol = await fetchCountrySymbol(clientAddress.country);
+        setCurrencySymbol(symbol);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Link
       className="router-link"
@@ -25,7 +38,7 @@ const InvoiceCard = ({
         </div>
         <div className="invoice-text-light">Due {paymentDue}</div>
         <div className="invoice-text-light name">{clientName}</div>
-        <div className="invoice-text-bold">$ {total}</div>
+        <div className="invoice-text-bold">{total}</div>
         <div
           className="invoice-status-container"
           style={{ backgroundColor: backgroundColor, color: color }}
