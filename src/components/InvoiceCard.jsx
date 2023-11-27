@@ -11,20 +11,9 @@ const InvoiceCard = ({
   status,
   backgroundColor,
   color,
+  total,
 }) => {
-  const { getSingleInvoice, fetchCountrySymbol } = useGlobalContext();
-  const [currencySymbol, setCurrencySymbol] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const symbol = await fetchCountrySymbol(clientAddress.country);
-        setCurrencySymbol(symbol);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { getSingleInvoice } = useGlobalContext();
 
   return (
     <Link
