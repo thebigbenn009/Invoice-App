@@ -3,6 +3,7 @@ import { useGlobalContext } from "../Context";
 import InvoiceItem from "./InvoiceItem";
 import TotalPrice from "./TotalPrice";
 import { useEffect, useState } from "react";
+import { getCurrency } from "../utils";
 const InvoiceDetails = ({ singleInvoice }) => {
   const {
     id,

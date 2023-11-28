@@ -1,3 +1,4 @@
+import axios from "axios";
 export const calculateTotal = (state) => {
   const total = state.inputData.items
     .map((item) => item.total)
@@ -125,4 +126,20 @@ export const generateUniqueId = (invoiceData) => {
   return generateId();
 };
 
-//COUNTRY VALIDATION FUNCTION
+export const getCurrency = async (countryName) => {
+  try {
+    const { data } = await axios.get(
+      `https://restcountries.com/v3.1/name/${countryName}`
+    );
+
+    const countryData = data[0];
+    console.log(countryData.currencies);
+    const currency = Object.keys(countryData.currencies)[0];
+    // console.log(currency);
+    const { symbol } = countryData.currencies[currency];
+    // console.log(symbol);
+  } catch (error) {
+    console.error("Error fetching currency", error);
+    return null;
+  }
+};

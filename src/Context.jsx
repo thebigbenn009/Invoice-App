@@ -9,6 +9,8 @@ import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
 import { generateUniqueId } from "./utils";
+const countryAPI = `https://restcountries.com/v3.1/name/`;
+
 const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState([...jsonData]);
@@ -103,7 +105,6 @@ const AppProvider = ({ children }) => {
     const singleId = invoiceData.find((invoice) => invoice.id === id);
     setSingleInvoice(singleId);
   };
-  const countryAPI = `https://restcountries.com/v3.1/name/`;
 
   // const [country, setCountry] = useState("");
   // const [currencySymbol, setCurrencySymbol] = useState("");
