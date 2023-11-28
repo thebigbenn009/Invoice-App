@@ -12,15 +12,19 @@ import { generateUniqueId } from "./utils";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
-const setLocalStorage = (invoice) => {
-  localStorage.setItem("invoice", JSON.stringify(invoice));
+const setLocalStorage = (invoice, data) => {
+  localStorage.setItem(data, JSON.stringify(invoice));
 };
+const defaultInvoiceList = JSON.parse(
+  localStorage.getItem("invoice") || `${JSON.stringify(jsonData)}`
+);
+const defaultSingleInvoiceList = JSON.parse(
+  localStorage.getItem("singleInvoice") || "{}"
+);
 const AppProvider = ({ children }) => {
-  const [invoiceData, setInvoiceData] = useState([...jsonData]);
-  // const [invoiceData, setInvoiceData] =
-  //   JSON.parse(localStorage.getItem("invoice")) || jsonData;
+  const [invoiceData, setInvoiceData] = useState(defaultInvoiceList);
 
-  const [singleInvoice, setSingleInvoice] = useState({});
+  const [singleInvoice, setSingleInvoice] = useState(defaultSingleInvoiceList);
 
   const {
     register,
@@ -68,7 +72,7 @@ const AppProvider = ({ children }) => {
     };
     const newInvoiceArray = [...invoiceData, newInvoice];
     setInvoiceData(newInvoiceArray);
-    setLocalStorage(newInvoiceArray);
+    setLocalStorage(newInvoiceArray, "invoice");
     reset();
     console.log(data);
   };
@@ -110,6 +114,7 @@ const AppProvider = ({ children }) => {
   const getSingleInvoice = (id) => {
     const singleId = invoiceData.find((invoice) => invoice.id === id);
     setSingleInvoice(singleId);
+    setLocalStorage(singleId, "singleInvoice");
   };
 
   const editInvoice = () => {
