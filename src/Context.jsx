@@ -12,8 +12,14 @@ import { generateUniqueId } from "./utils";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
+const setLocalStorage = (invoice) => {
+  localStorage.setItem("invoice", JSON.stringify(invoice));
+};
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState([...jsonData]);
+  // const [invoiceData, setInvoiceData] =
+  //   JSON.parse(localStorage.getItem("invoice")) || jsonData;
+
   const [singleInvoice, setSingleInvoice] = useState({});
 
   const {
@@ -36,11 +42,11 @@ const AppProvider = ({ children }) => {
     try {
       const response = await fetch(`${countryAPI}${country}`);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const currencies = data[0]?.currencies;
       const curr = Object.keys(currencies)[0];
       const { symbol } = currencies[curr];
-      console.log(symbol);
+      // console.log(symbol);
       return symbol;
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -53,16 +59,16 @@ const AppProvider = ({ children }) => {
       console.log("items must be placed");
       return;
     }
-    setInvoiceData((prevInvoice) => {
-      const newInvoice = {
-        id: generateUniqueId(prevInvoice),
-        status: "pending",
+    const newInvoice = {
+      id: generateUniqueId(invoiceData),
+      status: "pending",
 
-        ...data,
-        total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
-      };
-      return [...prevInvoice, newInvoice];
-    });
+      ...data,
+      total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
+    };
+    const newInvoiceArray = [...invoiceData, newInvoice];
+    setInvoiceData(newInvoiceArray);
+    setLocalStorage(newInvoiceArray);
     reset();
     console.log(data);
   };
@@ -106,11 +112,9 @@ const AppProvider = ({ children }) => {
     setSingleInvoice(singleId);
   };
 
-  // const [country, setCountry] = useState("");
-  // const [currencySymbol, setCurrencySymbol] = useState("");
-  useEffect(() => {
-    // fetchCountrySymbol("South Afr");
-  }, []);
+  const editInvoice = () => {
+    console.log(singleInvoice);
+  };
   return (
     <AppContext.Provider
       value={{
@@ -136,6 +140,7 @@ const AppProvider = ({ children }) => {
         getSingleInvoice,
         singleInvoice,
         fetchCountrySymbol,
+        editInvoice,
       }}
     >
       {children}

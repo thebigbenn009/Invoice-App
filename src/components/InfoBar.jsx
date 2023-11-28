@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useGlobalContext } from "../Context";
+import { Link } from "react-router-dom";
 const InfoBar = ({ backgroundColor, color, status }) => {
+  const { editInvoice } = useGlobalContext();
   return (
     <div className="info-bar">
       <div className="status-bar">
@@ -15,12 +17,15 @@ const InfoBar = ({ backgroundColor, color, status }) => {
       </div>
       <div className="info-buttons">
         <div className="btn-info-container">
-          <button
-            className="btn"
-            style={{ backgroundColor: "#252945", color: "#fff" }}
-          >
-            Edit
-          </button>
+          <Link className="router-link" to={"/newInvoice"}>
+            <button
+              onClick={editInvoice}
+              className="btn"
+              style={{ backgroundColor: "#252945", color: "#fff" }}
+            >
+              Edit
+            </button>
+          </Link>
           <button
             className="btn"
             style={{ backgroundColor: "#ec5757", color: "#fff" }}

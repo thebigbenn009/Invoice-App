@@ -24,8 +24,10 @@ const InvoiceDetails = ({ singleInvoice }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const symbol = await fetchCountrySymbol(clientAddress.country);
-        setCurrencySymbol(symbol);
+        const symbol = await fetchCountrySymbol(clientAddress?.country);
+        if (symbol) {
+          setCurrencySymbol(symbol);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
