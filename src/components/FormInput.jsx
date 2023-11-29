@@ -53,16 +53,16 @@ const FormInput = () => {
               message="can't be empty"
               fieldName="Post code"
               errorMessage={errors?.senderAddress?.postCode?.message}
-              validationRules={{
-                pattern: {
-                  value: /^\d{1,6}$/,
-                  message: "Please enter a number",
-                },
-                maxLength: {
-                  value: 6,
-                  message: "Postal code must be 6 characters or less",
-                },
-              }}
+              // validationRules={{
+              //   pattern: {
+              //     value: /^\d{1,6}$/,
+              //     message: "Please enter a number",
+              //   },
+              //   maxLength: {
+              //     value: 6,
+              //     message: "Postal code must be 6 characters or less",
+              //   },
+              // }}
             />
           </div>
           <div className="form-control">
@@ -161,12 +161,12 @@ const FormInput = () => {
             errorMessage={errors?.createdAt?.message}
           />
           <div className="invoice-input">
-            <label htmlFor="paymentDue">
+            <label htmlFor="paymentTerms">
               <span>Payment Terms</span>
-              <span className="error">{errors?.paymentDue?.message}</span>
+              <span className="error">{errors?.paymentTerms?.message}</span>
             </label>
             <select
-              {...register("paymentDue", {
+              {...register("paymentTerms", {
                 required: {
                   value: true,
                   message: "required",
@@ -175,9 +175,10 @@ const FormInput = () => {
               id=""
             >
               <option value="">Payment Terms</option>
-              <option value="7 days">Next 7 Days</option>
-              <option value="14 days">Next 14 Days</option>
-              <option value="30 days">Next 30 Days</option>
+              <option value="1">Next 1 Day</option>
+              <option value="7">Next 7 Days</option>
+              <option value="14">Next 14 Days</option>
+              <option value="30">Next 30 Days</option>
             </select>
           </div>
         </div>

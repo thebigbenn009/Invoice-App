@@ -8,7 +8,7 @@ import React, {
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
-import { generateUniqueId } from "./utils";
+import { generateUniqueId, isEmpty } from "./utils";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
@@ -58,13 +58,15 @@ const AppProvider = ({ children }) => {
   };
   const onSubmit = (data) => {
     const itemsArray = watch("items");
-
+    let newInvoice;
     if (itemsArray.length === 0) {
       console.log("items must be placed");
       return;
     }
-    const newInvoice = {
+
+    newInvoice = {
       id: generateUniqueId(invoiceData),
+
       status: "pending",
 
       ...data,
@@ -119,6 +121,9 @@ const AppProvider = ({ children }) => {
 
   const editInvoice = () => {
     console.log(singleInvoice);
+    Object.entries(singleInvoice).forEach(([key, value]) => {
+      setValue(key, value);
+    });
   };
   return (
     <AppContext.Provider

@@ -67,16 +67,16 @@ export const calculateDueDate = (paymentTerm) => {
   const currentDate = new Date();
   let dueDate = new Date(currentDate);
   switch (paymentTerm) {
-    case "1 day":
+    case "1":
       dueDate.setDate(currentDate.getDate() + 1);
       break;
-    case "1 week":
+    case "7":
       dueDate.setDate(currentDate.getDate() + 7);
       break;
-    case "2 weeks":
+    case "14":
       dueDate.setDate(currentDate.getDate() + 14);
       break;
-    case "1 month":
+    case "30":
       dueDate.setMonth(currentDate.getMonth() + 1); // Add 1 month
       break;
     default:
@@ -85,7 +85,7 @@ export const calculateDueDate = (paymentTerm) => {
   const formattedDate = getCurrentDate(dueDate);
   return formattedDate;
 };
-console.log(calculateDueDate("2 weeks"));
+console.log(calculateDueDate("7"));
 
 // Function to check if any value in an object is empty
 export const hasEmptyValues = (obj) => {
@@ -142,4 +142,13 @@ export const getCurrency = async (countryName) => {
     console.error("Error fetching currency", error);
     return null;
   }
+};
+export const isEmpty = (obj) => {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
 };
