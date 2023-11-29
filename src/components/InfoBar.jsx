@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../Context";
 import { Link } from "react-router-dom";
 const InfoBar = ({ backgroundColor, color, status }) => {
-  const { editInvoice } = useGlobalContext();
+  const { editInvoice, singleInvoice } = useGlobalContext();
   return (
     <div className="info-bar">
       <div className="status-bar">
@@ -17,7 +17,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
       </div>
       <div className="info-buttons">
         <div className="btn-info-container">
-          <Link className="router-link" to={"/newInvoice"}>
+          <Link className="router-link" to={`/editInvoice/${singleInvoice.id}`}>
             <button
               onClick={editInvoice}
               className="btn"
