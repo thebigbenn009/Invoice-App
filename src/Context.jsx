@@ -8,13 +8,14 @@ import React, {
 import { jsonData } from "./data";
 import reducer from "./redcuer";
 import { useFieldArray, useForm } from "react-hook-form";
-import { generateUniqueId, isEmpty } from "./utils";
+import { calculateDueDate, generateUniqueId, isEmpty } from "./utils";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
 const setLocalStorage = (invoice, data) => {
   localStorage.setItem(data, JSON.stringify(invoice));
 };
+
 const defaultInvoiceList = JSON.parse(
   localStorage.getItem("invoice") || `${JSON.stringify(jsonData)}`
 );
@@ -42,6 +43,7 @@ const AppProvider = ({ children }) => {
     name: "items",
     control,
   });
+  const [editingID, setEditingID] = useState(null);
   const fetchCountrySymbol = async (country) => {
     try {
       const response = await fetch(`${countryAPI}${country}`);
@@ -58,23 +60,30 @@ const AppProvider = ({ children }) => {
   };
   const onSubmit = (data) => {
     const itemsArray = watch("items");
-    let newInvoice;
+    // let newInvoice;
     if (itemsArray.length === 0) {
       console.log("items must be placed");
       return;
     }
-
-    newInvoice = {
-      id: generateUniqueId(invoiceData),
-
-      status: "pending",
-
-      ...data,
-      total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
-    };
-    const newInvoiceArray = [...invoiceData, newInvoice];
-    setInvoiceData(newInvoiceArray);
-    setLocalStorage(newInvoiceArray, "invoice");
+    if (editingID !== null) {
+      const updatedInvoice = invoiceData.map((invoice) =>
+        invoice.id === editingID ? { ...invoice, data } : invoice
+      );
+      setInvoiceData(updatedInvoice);
+      setLocalStorage(updatedInvoice, "invoice");
+      setEditingID(null);
+    } else {
+      const newInvoice = {
+        id: generateUniqueId(invoiceData),
+        status: "pending",
+        paymentDue: calculateDueDate(getValues("paymentTerms")),
+        ...data,
+        total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
+      };
+      const newInvoiceArray = [...invoiceData, newInvoice];
+      setInvoiceData(newInvoiceArray);
+      setLocalStorage(newInvoiceArray, "invoice");
+    }
     reset();
     console.log(data);
   };
@@ -85,10 +94,6 @@ const AppProvider = ({ children }) => {
     if (enteredClientName) {
       console.log(getValues());
     } else {
-      // setError("clientName", {
-      //   type: "manual",
-      //   message: "clientName required",
-      // });
       alert("Please fill out the Name field before saving to drafts.");
     }
   };
@@ -119,12 +124,27 @@ const AppProvider = ({ children }) => {
     setLocalStorage(singleId, "singleInvoice");
   };
 
-  const editInvoice = () => {
-    console.log(singleInvoice);
-    Object.entries(singleInvoice).forEach(([key, value]) => {
-      setValue(key, value);
-    });
+  // const editInvoice = (id) => {
+
+  //   Object.entries(singleInvoice).forEach(([key, value]) => {
+  //     setValue(key, value);
+  //   });
+  // };
+
+  const editInvoice = (id) => {
+    const invoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
+    if (invoiceToEdit) {
+      setEditingID(id);
+      Object.entries(invoiceToEdit).forEach(([key, value]) =>
+        setValue(key, value)
+      );
+    }
   };
+  useEffect(() => {
+    if (editingID === null) {
+      reset();
+    }
+  }, [editingID, reset]);
   return (
     <AppContext.Provider
       value={{

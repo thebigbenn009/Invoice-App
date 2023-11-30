@@ -1,5 +1,6 @@
 import React from "react";
 import { DevTool } from "@hookform/devtools";
+import { useEffect } from "react";
 import { useGlobalContext } from "../Context";
 import InvoiceInput from "./InvoiceInput";
 const countryAPI = `https://restcountries.com/v3.1/name/{name}?fullText=true`;
@@ -18,6 +19,7 @@ const FormInput = () => {
     handlePriceChange,
     handleQuantityChange,
     resetField,
+    singleInvoice,
   } = useGlobalContext();
 
   // const { errors } = formState;
@@ -161,12 +163,12 @@ const FormInput = () => {
             errorMessage={errors?.createdAt?.message}
           />
           <div className="invoice-input">
-            <label htmlFor="paymentTerms">
+            <label htmlFor="paymentDue">
               <span>Payment Terms</span>
-              <span className="error">{errors?.paymentTerms?.message}</span>
+              <span className="error">{errors?.paymentDue?.message}</span>
             </label>
             <select
-              {...register("paymentTerms", {
+              {...register("paymentDue", {
                 required: {
                   value: true,
                   message: "required",

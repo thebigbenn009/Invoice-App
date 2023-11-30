@@ -19,7 +19,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
         <div className="btn-info-container">
           <Link className="router-link" to={`/editInvoice/${singleInvoice.id}`}>
             <button
-              onClick={editInvoice}
+              onClick={() => editInvoice(singleInvoice.id)}
               className="btn"
               style={{ backgroundColor: "#252945", color: "#fff" }}
             >

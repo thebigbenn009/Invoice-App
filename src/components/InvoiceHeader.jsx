@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../Context";
 
 const InvoiceHeader = () => {
+  const { setEditingId } = useGlobalContext();
   return (
     <header>
       <div className="invoice-info-1">
@@ -22,7 +24,11 @@ const InvoiceHeader = () => {
             <option value="Paid">paid</option>
           </select>
         </div>
-        <Link to="/newInvoice" className=" btn invoice-btn">
+        <Link
+          to="/newInvoice"
+          className=" btn invoice-btn"
+          onClick={() => setEditingId(null)}
+        >
           <span className="btn-svg">
             <svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
               <path

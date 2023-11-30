@@ -5,12 +5,12 @@ export const calculateTotal = (state) => {
     .reduce((a, b) => a + b, 0);
   return total;
 };
-export function getCurrentDate() {
-  const currentDate = new Date();
+export function getCurrentDate(date) {
+  // const currentDate = new Date();
 
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
-  const day = currentDate.getDate().toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const day = date.getDate().toString().padStart(2, "0");
 
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
@@ -85,7 +85,7 @@ export const calculateDueDate = (paymentTerm) => {
   const formattedDate = getCurrentDate(dueDate);
   return formattedDate;
 };
-console.log(calculateDueDate("7"));
+console.log(calculateDueDate("1"));
 
 // Function to check if any value in an object is empty
 export const hasEmptyValues = (obj) => {
