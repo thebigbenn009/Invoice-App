@@ -2,7 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../Context";
 import { Link } from "react-router-dom";
 const InfoBar = ({ backgroundColor, color, status }) => {
-  const { editInvoice, singleInvoice } = useGlobalContext();
+  const { editInvoice, markAsPaid, singleInvoice } = useGlobalContext();
   return (
     <div className="info-bar">
       <div className="status-bar">
@@ -33,6 +33,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
             Delete
           </button>
           <button
+            onClick={() => markAsPaid(singleInvoice.id)}
             className="btn"
             style={{ backgroundColor: "#7c5dfa", color: "#fff" }}
           >

@@ -3,6 +3,7 @@ import { DevTool } from "@hookform/devtools";
 import { useEffect } from "react";
 import { useGlobalContext } from "../Context";
 import InvoiceInput from "./InvoiceInput";
+import { calculateDueDate } from "../utils";
 const countryAPI = `https://restcountries.com/v3.1/name/{name}?fullText=true`;
 const FormInput = () => {
   const {
@@ -177,10 +178,10 @@ const FormInput = () => {
               id=""
             >
               <option value="">Payment Terms</option>
-              <option value="1">Next 1 Day</option>
-              <option value="7">Next 7 Days</option>
-              <option value="14">Next 14 Days</option>
-              <option value="30">Next 30 Days</option>
+              <option value={calculateDueDate("1")}>Next 1 Day</option>
+              <option value={calculateDueDate("7")}>Next 7 Days</option>
+              <option value={calculateDueDate("14")}>Next 14 Days</option>
+              <option value={calculateDueDate("30")}>Next 30 Days</option>
             </select>
           </div>
         </div>

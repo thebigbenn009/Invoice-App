@@ -67,7 +67,7 @@ const AppProvider = ({ children }) => {
     }
     if (editingID !== null) {
       const updatedInvoice = invoiceData.map((invoice) =>
-        invoice.id === editingID ? { ...invoice, data } : invoice
+        invoice.id === editingID ? { ...data, status: "pending" } : invoice
       );
       setInvoiceData(updatedInvoice);
       setLocalStorage(updatedInvoice, "invoice");
@@ -76,7 +76,7 @@ const AppProvider = ({ children }) => {
       const newInvoice = {
         id: generateUniqueId(invoiceData),
         status: "pending",
-        paymentDue: calculateDueDate(getValues("paymentTerms")),
+        // paymentDue: calculateDueDate(getValues("paymentTerms")),
         ...data,
         total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
       };
@@ -84,6 +84,7 @@ const AppProvider = ({ children }) => {
       setInvoiceData(newInvoiceArray);
       setLocalStorage(newInvoiceArray, "invoice");
     }
+
     reset();
     console.log(data);
   };
@@ -96,6 +97,26 @@ const AppProvider = ({ children }) => {
     } else {
       alert("Please fill out the Name field before saving to drafts.");
     }
+    if (editingID) {
+      setInvoiceData((invoice) =>
+        invoice.id === editInvoice ? { ...invoice, ...getValues() } : invoice
+      );
+    } else {
+      const newInvoice = {
+        id: generateUniqueId(invoiceData),
+        status: "draft",
+
+        ...data,
+        total: data.items
+          ? data.items.map((item) => item.total).reduce((a, b) => a + b, 0)
+          : "",
+      };
+      const newInvoiceArray = [...invoiceData, newInvoice];
+      setInvoiceData(newInvoiceArray);
+      setLocalStorage(newInvoiceArray, "invoice");
+    }
+    reset();
+    console.log(invoiceData);
   };
   //function to handle save to reset fields
   const resetField = () => {
@@ -145,6 +166,19 @@ const AppProvider = ({ children }) => {
       reset();
     }
   }, [editingID, reset]);
+
+  const markAsPaid = (id) => {
+    setSingleInvoice({ ...singleInvoice, status: "paid" });
+    console.log(singleInvoice);
+    const updatedInvoice = invoiceData.map((invoice) => {
+      if (invoice.id === id) {
+        console.log(singleInvoice);
+        return { ...invoice, status: "paid" };
+      } else return invoice;
+    });
+    setInvoiceData(updatedInvoice);
+    setLocalStorage(updatedInvoice, "invoice");
+  };
   return (
     <AppContext.Provider
       value={{
@@ -171,6 +205,7 @@ const AppProvider = ({ children }) => {
         singleInvoice,
         fetchCountrySymbol,
         editInvoice,
+        markAsPaid,
       }}
     >
       {children}

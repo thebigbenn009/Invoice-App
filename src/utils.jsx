@@ -85,7 +85,7 @@ export const calculateDueDate = (paymentTerm) => {
   const formattedDate = getCurrentDate(dueDate);
   return formattedDate;
 };
-console.log(calculateDueDate("1"));
+// console.log(calculateDueDate("7"));
 
 // Function to check if any value in an object is empty
 export const hasEmptyValues = (obj) => {
