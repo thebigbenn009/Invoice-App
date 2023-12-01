@@ -1,8 +1,10 @@
 import React from "react";
 import { useGlobalContext } from "../Context";
 import { Link } from "react-router-dom";
+import DeleteModal from "./DeleteModal";
 const InfoBar = ({ backgroundColor, color, status }) => {
-  const { editInvoice, markAsPaid, singleInvoice } = useGlobalContext();
+  const { editInvoice, markAsPaid, singleInvoice, setShowModal } =
+    useGlobalContext();
   return (
     <div className="info-bar">
       <div className="status-bar">
@@ -27,6 +29,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
             </button>
           </Link>
           <button
+            onClick={() => setShowModal(true)}
             className="btn"
             style={{ backgroundColor: "#ec5757", color: "#fff" }}
           >
@@ -41,6 +44,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
           </button>
         </div>
       </div>
+      <DeleteModal />
     </div>
   );
 };

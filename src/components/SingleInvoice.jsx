@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import InfoBar from "./InfoBar";
 import { useGlobalContext } from "../Context";
 import InvoiceDetails from "./InvoiceDetails";
+import DeleteModal from "./DeleteModal";
 const SingleInvoice = () => {
   const { singleInvoice } = useGlobalContext();
   return (

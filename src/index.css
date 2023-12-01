@@ -54,6 +54,7 @@ html {
 body {
   background-color: var(--deep-blue-1);
   line-height: 1.7;
+  position: relative;
 }
 .main-section {
   width: 100%;
@@ -486,13 +487,45 @@ select {
   color: #fff;
 }
 .overlay {
-  display: block;
+  display: grid;
   position: fixed;
+  place-items: center;
   top: 0;
   left: 0;
   height: 100%;
+  width: 100%;
   background: rgba(0, 0, 0, 0.5);
+  /* background-color: red; */
   z-index: 1;
+}
+.modal {
+  background-color: white;
+  padding: 3rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--purple-1);
+  z-index: 2;
+  transition: opacity 0.3s ease-in-out;
+  width: 48rem;
+}
+.modal h3 {
+  margin-bottom: 2rem;
+}
+.modal p {
+  margin-bottom: 1rem;
+}
+.modal-btn-container {
+  display: flex;
+  justify-content: end;
+  gap: 1.5rem;
+}
+.modal-btn-container * {
+  color: #fff;
+}
+.btn-delete {
+  background-color: var(--error);
+}
+.btn-cancel {
+  background-color: var(--purple-3);
 }
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
@@ -511,6 +544,7 @@ select {
     grid-template-columns: 1fr;
     grid-template-rows: 6rem 1fr;
     margin-top: 0;
+    position: relative;
   }
   .sidebar {
     width: 100%;
