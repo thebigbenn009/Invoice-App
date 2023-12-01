@@ -4,8 +4,14 @@ import InfoBar from "./InfoBar";
 import { useGlobalContext } from "../Context";
 import InvoiceDetails from "./InvoiceDetails";
 import DeleteModal from "./DeleteModal";
+import { useParams, useLoaderData, useNavigate } from "react-router-dom";
+export const loader = (data) => {
+  // console.log(data);
+  return null;
+};
 const SingleInvoice = () => {
   const { singleInvoice } = useGlobalContext();
+
   return (
     <section className="single-invoice">
       <Link to="/" className="router-link">
@@ -19,6 +25,7 @@ const SingleInvoice = () => {
               fillRule="evenodd"
             />
           </svg>
+          {/* {console.log(id)} */}
         </span>
         <span>Go back</span>
       </Link>

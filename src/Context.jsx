@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
+import { redirect, useNavigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 import { calculateDueDate, generateUniqueId, isEmpty } from "./utils";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
@@ -27,6 +28,7 @@ const AppProvider = ({ children }) => {
 
   const [singleInvoice, setSingleInvoice] = useState(defaultSingleInvoiceList);
   const [showModal, setShowModal] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const {
     register,
@@ -184,9 +186,11 @@ const AppProvider = ({ children }) => {
     const updatedInvoice = invoiceData.filter((invoice) => invoice.id !== id);
     setInvoiceData(updatedInvoice);
     setLocalStorage(updatedInvoice, "invoice");
-    setEditingID(null);
-    setSingleInvoice(null);
+    setDeleted(true);
+    setEditingID("");
+    // setSingleInvoice({});
   };
+
   return (
     <AppContext.Provider
       value={{
@@ -217,6 +221,8 @@ const AppProvider = ({ children }) => {
         showModal,
         setShowModal,
         deleteInvoice,
+        deleted,
+        setDeleted,
       }}
     >
       {children}

@@ -1,10 +1,12 @@
 import React from "react";
+
 import { useGlobalContext } from "../Context";
 import { Link } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 const InfoBar = ({ backgroundColor, color, status }) => {
-  const { editInvoice, markAsPaid, singleInvoice, setShowModal } =
+  const { editInvoice, markAsPaid, singleInvoice, setShowModal, deleted } =
     useGlobalContext();
+
   return (
     <div className="info-bar">
       <div className="status-bar">
