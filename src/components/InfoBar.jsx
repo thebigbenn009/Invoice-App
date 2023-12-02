@@ -1,12 +1,23 @@
 import React from "react";
 
 import { useGlobalContext } from "../Context";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
+export const loader = ({ params }) => {
+  const { id } = params;
+  return { id };
+};
 const InfoBar = ({ backgroundColor, color, status }) => {
-  const { editInvoice, markAsPaid, singleInvoice, setShowModal, deleted } =
-    useGlobalContext();
-
+  const {
+    editInvoice,
+    markAsPaid,
+    singleInvoice,
+    setShowModal,
+    deleted,
+    invoiceData,
+  } = useGlobalContext();
+  const { id } = useLoaderData();
+  const loadedInvoice = invoiceData.find((invoice) => invoice.id === id);
   return (
     <div className="info-bar">
       <div className="status-bar">
@@ -21,9 +32,9 @@ const InfoBar = ({ backgroundColor, color, status }) => {
       </div>
       <div className="info-buttons">
         <div className="btn-info-container">
-          <Link className="router-link" to={`/editInvoice/${singleInvoice.id}`}>
+          <Link className="router-link" to={`/editInvoice/${loadedInvoice.id}`}>
             <button
-              onClick={() => editInvoice(singleInvoice.id)}
+              // onClick={() => editInvoice(loadedInvoice.id)}
               className="btn"
               style={{ backgroundColor: "#252945", color: "#fff" }}
             >
@@ -38,7 +49,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
             Delete
           </button>
           <button
-            onClick={() => markAsPaid(singleInvoice.id)}
+            onClick={() => markAsPaid(loadedInvoice.id)}
             className="btn"
             style={{ backgroundColor: "#7c5dfa", color: "#fff" }}
           >

@@ -10,6 +10,7 @@ import ErrorPage from "./pages/ErrorPage";
 import SingleInvoice from "./components/SingleInvoice";
 import EditInvoice from "./components/EditInvoice";
 import { loader as singleInvoiceLoader } from "./components/SingleInvoice";
+import { loader as editInvoiceLoader } from "./components/EditInvoice";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
       {
         element: <EditInvoice />,
         path: "editInvoice/:id",
+        errorElement: <ErrorPage />,
+        loader: editInvoiceLoader,
       },
     ],
   },

@@ -186,7 +186,7 @@ const AppProvider = ({ children }) => {
     const updatedInvoice = invoiceData.filter((invoice) => invoice.id !== id);
     setInvoiceData(updatedInvoice);
     setLocalStorage(updatedInvoice, "invoice");
-    setDeleted(true);
+    // setDeleted(true);
     setEditingID("");
     // setSingleInvoice({});
   };
