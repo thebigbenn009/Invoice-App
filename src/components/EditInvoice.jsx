@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import FormInput from "./FormInput";
 import { useGlobalContext } from "../Context";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { key } from "localforage";
 
 export const loader = ({ params }) => {
   const { id } = params;
@@ -11,16 +10,19 @@ export const loader = ({ params }) => {
 const EditInvoice = () => {
   const { id } = useLoaderData();
   const navigate = useNavigate();
-  const { invoiceData, setValue } = useGlobalContext();
+  const { invoiceData, setValue, setEditingID } = useGlobalContext();
   const formInvoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
+  // console.log(formInvoiceToEdit);
 
   useEffect(() => {
     if (formInvoiceToEdit) {
+      setEditingID(id);
       Object.entries(formInvoiceToEdit).forEach(([key, value]) =>
         setValue(key, value)
       );
     } else {
       navigate("/");
+      setEditingID(null);
     }
   }, [formInvoiceToEdit, id, setValue, navigate]);
   return (

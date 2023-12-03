@@ -68,14 +68,27 @@ const AppProvider = ({ children }) => {
       console.log("items must be placed");
       return;
     }
+    // When you are editing an invoice
     if (editingID !== null) {
-      const updatedInvoice = invoiceData.map((invoice) =>
-        invoice.id === editingID ? { ...data, status: "pending" } : invoice
-      );
+      const updatedInvoice = invoiceData.map((invoice) => {
+        if (invoice.id === editingID) {
+          console.log(data);
+          return {
+            ...data,
+            total: data.items
+              .map((item) => item.total)
+              .reduce((a, b) => a + b, 0),
+            status: "pending",
+          };
+        } else {
+          return invoice;
+        }
+      });
       setInvoiceData(updatedInvoice);
       setLocalStorage(updatedInvoice, "invoice");
       setEditingID(null);
     } else {
+      //When you are creating a new invoice
       const newInvoice = {
         id: generateUniqueId(invoiceData),
         status: "pending",
@@ -175,7 +188,7 @@ const AppProvider = ({ children }) => {
     console.log(singleInvoice);
     const updatedInvoice = invoiceData.map((invoice) => {
       if (invoice.id === id) {
-        console.log(singleInvoice);
+        // console.log(singleInvoice);
         return { ...invoice, status: "paid" };
       } else return invoice;
     });
@@ -215,6 +228,8 @@ const AppProvider = ({ children }) => {
         resetField,
         getSingleInvoice,
         singleInvoice,
+        editingID,
+        setEditingID,
         fetchCountrySymbol,
         editInvoice,
         markAsPaid,

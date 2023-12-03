@@ -5,7 +5,6 @@ import { useGlobalContext } from "../Context";
 import DeleteModal from "../components/DeleteModal";
 
 const HomeLayout = () => {
-  const { showModal, setShowModal } = useGlobalContext();
   return (
     <>
       <section className="app-container">
