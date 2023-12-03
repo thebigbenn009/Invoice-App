@@ -4,8 +4,10 @@ import { useEffect } from "react";
 import { useGlobalContext } from "../Context";
 import InvoiceInput from "./InvoiceInput";
 import { calculateDueDate } from "../utils";
+import { useNavigate } from "react-router-dom";
 const countryAPI = `https://restcountries.com/v3.1/name/{name}?fullText=true`;
 const FormInput = () => {
+  const navigate = useNavigate();
   const {
     register,
     control,
@@ -20,10 +22,16 @@ const FormInput = () => {
     handlePriceChange,
     handleQuantityChange,
     resetField,
+    isSubmitted,
     singleInvoice,
   } = useGlobalContext();
 
-  // const { errors } = formState;
+  useEffect(() => {
+    if (isSubmitted) {
+      console.log(isSubmitted);
+      navigate("/");
+    }
+  }, [isSubmitted]);
 
   return (
     <>

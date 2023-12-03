@@ -41,7 +41,7 @@ const AppProvider = ({ children }) => {
     watch,
     reset,
   } = useForm();
-  const { errors } = formState;
+  const { errors, isSubmitted } = formState;
   const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
@@ -99,11 +99,13 @@ const AppProvider = ({ children }) => {
       const newInvoiceArray = [...invoiceData, newInvoice];
       setInvoiceData(newInvoiceArray);
       setLocalStorage(newInvoiceArray, "invoice");
+      console.log(isSubmitted);
     }
 
     reset();
     console.log(data);
   };
+
   //function to handle save to drafts
   const saveAsDraft = (data) => {
     const enteredClientName = getValues("clientName");
@@ -238,6 +240,7 @@ const AppProvider = ({ children }) => {
         deleteInvoice,
         deleted,
         setDeleted,
+        isSubmitted,
       }}
     >
       {children}

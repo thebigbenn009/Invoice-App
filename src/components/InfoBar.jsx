@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useGlobalContext } from "../Context";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import DeleteModal from "./DeleteModal";
 export const loader = ({ params }) => {
   const { id } = params;
   return { id };
 };
+
 const InfoBar = ({ backgroundColor, color, status }) => {
   const {
     editInvoice,
@@ -18,6 +19,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
   } = useGlobalContext();
   const { id } = useLoaderData();
   const loadedInvoice = invoiceData.find((invoice) => invoice.id === id);
+
   return (
     <div className="info-bar">
       <div className="status-bar">
