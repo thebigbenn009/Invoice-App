@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useGlobalContext } from "../Context";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ export const loader = ({ params }) => {
 };
 
 const DeleteModal = () => {
+  const navigate = useNavigate();
   const {
     showModal,
     setShowModal,

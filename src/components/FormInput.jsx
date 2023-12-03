@@ -26,13 +26,6 @@ const FormInput = () => {
     singleInvoice,
   } = useGlobalContext();
 
-  useEffect(() => {
-    if (isSubmitted) {
-      console.log(isSubmitted);
-      navigate("/");
-    }
-  }, [isSubmitted]);
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
