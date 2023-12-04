@@ -24,8 +24,12 @@ const FormInput = () => {
     resetField,
     isSubmitted,
     singleInvoice,
+    reset,
   } = useGlobalContext();
-
+  if (isSubmitted) {
+    navigate("/");
+    reset();
+  }
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>

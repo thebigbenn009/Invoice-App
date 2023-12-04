@@ -241,6 +241,7 @@ const AppProvider = ({ children }) => {
         deleted,
         setDeleted,
         isSubmitted,
+        reset,
       }}
     >
       {children}
