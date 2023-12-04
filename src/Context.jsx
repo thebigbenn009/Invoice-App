@@ -111,14 +111,29 @@ const AppProvider = ({ children }) => {
     const enteredClientName = getValues("clientName");
 
     if (enteredClientName) {
-      console.log(getValues());
+      // console.log(getValues());
     } else {
       alert("Please fill out the Name field before saving to drafts.");
     }
-    if (editingID) {
-      setInvoiceData((invoice) =>
-        invoice.id === editInvoice ? { ...invoice, ...getValues() } : invoice
-      );
+    if (editingID !== null) {
+      console.log(editingID);
+      const updatedInvoice = invoiceData.map((invoice) => {
+        if (invoice.id === editingID) {
+          // console.log(invoice);
+          return {
+            ...data,
+            status: "draft",
+            total: data.items
+              ? data.items.map((item) => item.total).reduce((a, b) => a + b, 0)
+              : "",
+          };
+        } else return invoice;
+      });
+      setInvoiceData(updatedInvoice);
+      setLocalStorage(updatedInvoice, "invoice");
+      // setInvoiceData((invoice) =>
+      //   invoice.id === editInvoice ? { ...data, status: "draft" } : invoice
+      // );
     } else {
       const newInvoice = {
         id: generateUniqueId(invoiceData),
@@ -134,7 +149,7 @@ const AppProvider = ({ children }) => {
       setLocalStorage(newInvoiceArray, "invoice");
     }
     reset();
-    console.log(invoiceData);
+    // console.log(invoiceData);
   };
   //function to handle save to reset fields
   const resetField = () => {
