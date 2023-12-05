@@ -140,30 +140,9 @@ const AppProvider = ({ children }) => {
           : invoice
       );
       console.log(updatedInvoice);
+    } else {
+      console.log("new draft created");
     }
-  };
-  const saved = () => {
-    // const enteredClientName = getValues("clientName");
-    // if (enteredClientName) {
-    //   // console.log(getValues());
-    // } else {
-    //   alert("Please fill out the Name field before saving to drafts.");
-    // }
-    // console.log("saved to drafts");
-    // console.log(editingID);
-    // if (editingID !== null) {
-    //   console.log("yes");
-    //   const updatedInvoice = invoiceData.map((invoice) => {
-    //     if (invoice.id === editingID) {
-    //       console.log(invoice);
-    //       console.log(data);
-    //       return { ...invoice, ...data };
-    //     } else {
-    //       return invoice;
-    //     }
-    //   });
-    //   setInvoiceData(updatedInvoice);
-    // }
   };
   //function to handle price change and update total dynamically
   const handlePriceChange = (index, value) => {
