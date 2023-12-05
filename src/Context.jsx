@@ -140,16 +140,6 @@ const AppProvider = ({ children }) => {
           : invoice
       );
       console.log(updatedInvoice);
-      // const updatedInvoice = invoiceData.map((invoice) => {
-      //   if (invoice.id === editingID) {
-      //     console.log(invoice);
-
-      //     return { ...invoice, ...data };
-      //   } else {
-      //     return invoice;
-      //   }
-      // });
-      // setInvoiceData(updatedInvoice);
     }
   };
   const saved = () => {
