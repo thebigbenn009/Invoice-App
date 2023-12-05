@@ -10,21 +10,32 @@ export const loader = ({ params }) => {
 const EditInvoice = () => {
   const { id } = useLoaderData();
   const navigate = useNavigate();
-  const { invoiceData, setValue, setEditingID } = useGlobalContext();
-  const formInvoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
+  const { editingID, setEditingID, invoiceData, setValue } = useGlobalContext();
+  useEffect(() => {
+    setEditingID(id);
+    const invoiceToEdit = invoiceData.find(
+      (invoice) => invoice.id === editingID
+    );
+    console.log(invoiceToEdit);
+    Object.entries(invoiceToEdit).forEach(([key, value]) =>
+      setValue(key, value)
+    );
+  }, [editingID]);
+  // const { invoiceData, setValue, setEditingID } = useGlobalContext();
+  // const formInvoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
   // console.log(formInvoiceToEdit);
 
-  useEffect(() => {
-    if (formInvoiceToEdit) {
-      setEditingID(id);
-      Object.entries(formInvoiceToEdit).forEach(([key, value]) =>
-        setValue(key, value)
-      );
-    } else {
-      navigate("/");
-      setEditingID(null);
-    }
-  }, [formInvoiceToEdit, id, setValue, navigate]);
+  // useEffect(() => {
+  //   if (formInvoiceToEdit) {
+  //     setEditingID(id);
+  //     Object.entries(formInvoiceToEdit).forEach(([key, value]) =>
+  //       setValue(key, value)
+  //     );
+  //   } else {
+  //     navigate("/");
+  //     setEditingID(null);
+  //   }
+  // }, [formInvoiceToEdit, id, setValue, navigate]);
   return (
     <main className="invoice-section">
       <section className="new-invoice">

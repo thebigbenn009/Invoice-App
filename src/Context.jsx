@@ -10,6 +10,7 @@ import reducer from "./redcuer";
 import { redirect, useNavigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 import { calculateDueDate, generateUniqueId, isEmpty } from "./utils";
+import { key } from "localforage";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
@@ -109,51 +110,70 @@ const AppProvider = ({ children }) => {
   //function to handle save to drafts
   const saveAsDraft = (data) => {
     const enteredClientName = getValues("clientName");
+    const itemsInInvoice = watch("items");
+    console.log(itemsInInvoice);
 
     if (enteredClientName) {
       // console.log(getValues());
     } else {
       alert("Please fill out the Name field before saving to drafts.");
     }
+    console.log("saved to drafts");
+    console.log(editingID);
     if (editingID !== null) {
-      console.log(editingID);
-      const updatedInvoice = invoiceData.map((invoice) => {
-        if (invoice.id === editingID) {
-          // console.log(invoice);
-          return {
-            ...data,
-            status: "draft",
-            total: data.items
-              ? data.items.map((item) => item.total).reduce((a, b) => a + b, 0)
-              : "",
-          };
-        } else return invoice;
+      console.log("yes");
+      console.log({
+        ...getValues(),
+        total: itemsInInvoice
+          .map((item) => item.total)
+          .reduce((a, b) => a + b, 0),
       });
-      setInvoiceData(updatedInvoice);
-      setLocalStorage(updatedInvoice, "invoice");
-      // setInvoiceData((invoice) =>
-      //   invoice.id === editInvoice ? { ...data, status: "draft" } : invoice
-      // );
-    } else {
-      const newInvoice = {
-        id: generateUniqueId(invoiceData),
-        status: "draft",
+      const updatedInvoice = invoiceData.map((invoice) =>
+        invoice.id === editingID
+          ? {
+              ...getValues(),
+              total: itemsInInvoice
+                .map((item) => item.total)
+                .reduce((a, b) => a + b, 0),
+              status: "pending",
+            }
+          : invoice
+      );
+      console.log(updatedInvoice);
+      // const updatedInvoice = invoiceData.map((invoice) => {
+      //   if (invoice.id === editingID) {
+      //     console.log(invoice);
 
-        ...data,
-        total: data.items
-          ? data.items.map((item) => item.total).reduce((a, b) => a + b, 0)
-          : "",
-      };
-      const newInvoiceArray = [...invoiceData, newInvoice];
-      setInvoiceData(newInvoiceArray);
-      setLocalStorage(newInvoiceArray, "invoice");
+      //     return { ...invoice, ...data };
+      //   } else {
+      //     return invoice;
+      //   }
+      // });
+      // setInvoiceData(updatedInvoice);
     }
-    reset();
-    // console.log(invoiceData);
   };
-  //function to handle save to reset fields
-  const resetField = () => {
-    reset();
+  const saved = () => {
+    // const enteredClientName = getValues("clientName");
+    // if (enteredClientName) {
+    //   // console.log(getValues());
+    // } else {
+    //   alert("Please fill out the Name field before saving to drafts.");
+    // }
+    // console.log("saved to drafts");
+    // console.log(editingID);
+    // if (editingID !== null) {
+    //   console.log("yes");
+    //   const updatedInvoice = invoiceData.map((invoice) => {
+    //     if (invoice.id === editingID) {
+    //       console.log(invoice);
+    //       console.log(data);
+    //       return { ...invoice, ...data };
+    //     } else {
+    //       return invoice;
+    //     }
+    //   });
+    //   setInvoiceData(updatedInvoice);
+    // }
   };
   //function to handle price change and update total dynamically
   const handlePriceChange = (index, value) => {
@@ -242,7 +262,7 @@ const AppProvider = ({ children }) => {
         setError,
         handlePriceChange,
         handleQuantityChange,
-        resetField,
+        // resetField,
         getSingleInvoice,
         singleInvoice,
         editingID,
