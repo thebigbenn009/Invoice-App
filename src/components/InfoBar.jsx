@@ -37,7 +37,7 @@ const InfoBar = ({ backgroundColor, color, status }) => {
         <div className="btn-info-container">
           <Link className="router-link" to={`/editInvoice/${loadedInvoice.id}`}>
             <button
-              onClick={() => setEditingID(id)}
+              // onClick={() => setEditingID(id)}
               // onClick={() => editInvoice(loadedInvoice.id)}
               className="btn"
               style={{ backgroundColor: "#252945", color: "#fff" }}

@@ -86,16 +86,17 @@ const InvoiceDetails = ({ singleInvoice }) => {
           <p className="text-right">Price</p>
           <p className="text-right">Total</p>
         </div>
-        {items.map((item, index) => {
-          return (
-            <InvoiceItem
-              key={index}
-              {...item}
-              price={`${currencySymbol}${item.price}`}
-              total={`${currencySymbol}${item.total}`}
-            />
-          );
-        })}
+        {items &&
+          items.map((item, index) => {
+            return (
+              <InvoiceItem
+                key={index}
+                {...item}
+                price={`${currencySymbol}${item.price}`}
+                total={`${currencySymbol}${item.total}`}
+              />
+            );
+          })}
       </div>
       <TotalPrice total={`${currencySymbol}${total}`} />
     </article>

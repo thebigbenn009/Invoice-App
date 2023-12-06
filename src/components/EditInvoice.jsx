@@ -16,11 +16,18 @@ const EditInvoice = () => {
     const invoiceToEdit = invoiceData.find(
       (invoice) => invoice.id === editingID
     );
-    console.log(invoiceToEdit);
-    Object.entries(invoiceToEdit).forEach(([key, value]) =>
-      setValue(key, value)
-    );
-  }, [editingID]);
+
+    if (invoiceToEdit) {
+      Object.entries(invoiceToEdit).forEach(([key, value]) =>
+        setValue(key, value)
+      );
+    }
+
+    // Return the cleanup function
+    return () => {
+      setEditingID(null); // Reset the editingID when the component unmounts or when conditions are met
+    };
+  }, [editingID, id, invoiceData, setValue]);
   // const { invoiceData, setValue, setEditingID } = useGlobalContext();
   // const formInvoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
   // console.log(formInvoiceToEdit);

@@ -10,7 +10,6 @@ import reducer from "./redcuer";
 import { redirect, useNavigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
 import { calculateDueDate, generateUniqueId, isEmpty } from "./utils";
-import { key } from "localforage";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const AppContext = createContext();
@@ -42,7 +41,7 @@ const AppProvider = ({ children }) => {
     watch,
     reset,
   } = useForm();
-  const { errors, isSubmitted } = formState;
+  const { errors, isSubmitSuccessful } = formState;
   const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
@@ -93,14 +92,13 @@ const AppProvider = ({ children }) => {
       const newInvoice = {
         id: generateUniqueId(invoiceData),
         status: "pending",
-        // paymentDue: calculateDueDate(getValues("paymentTerms")),
+
         ...data,
         total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
       };
       const newInvoiceArray = [...invoiceData, newInvoice];
       setInvoiceData(newInvoiceArray);
       setLocalStorage(newInvoiceArray, "invoice");
-      console.log(isSubmitted);
     }
 
     reset();
@@ -111,14 +109,13 @@ const AppProvider = ({ children }) => {
   const saveAsDraft = (data) => {
     const enteredClientName = getValues("clientName");
     const itemsInInvoice = watch("items");
-    console.log(itemsInInvoice);
 
     if (enteredClientName) {
       // console.log(getValues());
     } else {
       alert("Please fill out the Name field before saving to drafts.");
     }
-    console.log("saved to drafts");
+
     console.log(editingID);
     if (editingID !== null) {
       console.log("yes");
@@ -128,9 +125,11 @@ const AppProvider = ({ children }) => {
           .map((item) => item.total)
           .reduce((a, b) => a + b, 0),
       });
+
       const updatedInvoice = invoiceData.map((invoice) =>
         invoice.id === editingID
           ? {
+              ...invoice,
               ...getValues(),
               total: itemsInInvoice
                 .map((item) => item.total)
@@ -140,9 +139,23 @@ const AppProvider = ({ children }) => {
           : invoice
       );
       console.log(updatedInvoice);
+      setInvoiceData(updatedInvoice);
+      setLocalStorage(updatedInvoice, "invoice");
     } else {
       console.log("new draft created");
+      const newDraftInvoice = {
+        id: generateUniqueId(invoiceData),
+        status: "draft",
+        ...getValues(),
+        total: itemsInInvoice
+          ? itemsInInvoice.map((item) => item.total).reduce((a, b) => a + b, 0)
+          : 0,
+      };
+      const newInvoiceData = [...invoiceData, newDraftInvoice];
+      setInvoiceData(newInvoiceData);
+      setLocalStorage(newInvoiceData, "invoice");
     }
+    // setEditingID(null);
   };
   //function to handle price change and update total dynamically
   const handlePriceChange = (index, value) => {
@@ -244,7 +257,7 @@ const AppProvider = ({ children }) => {
         deleteInvoice,
         deleted,
         setDeleted,
-        isSubmitted,
+        isSubmitSuccessful,
         reset,
       }}
     >

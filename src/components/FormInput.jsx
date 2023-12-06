@@ -25,11 +25,14 @@ const FormInput = () => {
     isSubmitted,
     singleInvoice,
     reset,
+    isSubmitSuccessful,
   } = useGlobalContext();
-  if (isSubmitted) {
-    navigate("/");
-    reset();
-  }
+  // useEffect(() => {
+  //   if (isSubmitSuccessful) {
+  //     reset();
+  //     navigate("");
+  //   }
+  // }, [isSubmitSuccessful]);
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
