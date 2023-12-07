@@ -17,11 +17,13 @@ const InvoiceHeader = () => {
         <div className="filter">
           <select className="select" name="filter" id="filter">
             <option value="">
-              Filter<span className="filter-by">by status</span>
+              Filter <span className="filter-by">by status</span>
             </option>
             <option value="Pending">pending</option>
             <option value="Draft">draft</option>
-            <option value="Paid">paid</option>
+            <option onClick={() => console.log("paid")} value="Paid">
+              paid
+            </option>
           </select>
         </div>
         <Link
