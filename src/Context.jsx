@@ -25,7 +25,7 @@ const defaultSingleInvoiceList = JSON.parse(
 );
 const AppProvider = ({ children }) => {
   const [invoiceData, setInvoiceData] = useState(defaultInvoiceList);
-
+  const [displayInvoice, setDisplayInvoice] = useState(invoiceData);
   const [singleInvoice, setSingleInvoice] = useState(defaultSingleInvoiceList);
   const [showModal, setShowModal] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -222,12 +222,19 @@ const AppProvider = ({ children }) => {
     setEditingID("");
     // setSingleInvoice({});
   };
-
+  const [filterBy, setFilterBy] = useState("");
+  const handleFilterBy = (e) => {
+    setFilterBy(e.target.value.toLowerCase());
+    // console.log(filterBy);
+  };
   return (
     <AppContext.Provider
       value={{
         invoiceData,
         setInvoiceData,
+        handleFilterBy,
+        filterBy,
+        setFilterBy,
         register,
         control,
         handleSubmit,
@@ -259,6 +266,8 @@ const AppProvider = ({ children }) => {
         setDeleted,
         isSubmitSuccessful,
         reset,
+        displayInvoice,
+        setDisplayInvoice,
       }}
     >
       {children}

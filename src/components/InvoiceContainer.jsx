@@ -5,7 +5,8 @@ import { useGlobalContext } from "../Context";
 const countryAPI = `https://restcountries.com/v3.1/name/`;
 
 const InvoiceContainer = () => {
-  const { invoiceData, fetchCountrySymbol } = useGlobalContext();
+  const { invoiceData, displayInvoice, fetchCountrySymbol } =
+    useGlobalContext();
   const [currencySymbol, setCurrencySymbol] = useState("");
 
   // const fetchData = async (invoice) => {
@@ -19,7 +20,7 @@ const InvoiceContainer = () => {
 
   return (
     <section className="invoice-container">
-      {invoiceData.map((invoice) => {
+      {displayInvoice.map((invoice) => {
         return (
           <InvoiceCard
             key={invoice.id}

@@ -1,29 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 
 const InvoiceHeader = () => {
-  const { setEditingId } = useGlobalContext();
+  const {
+    setEditingId,
+    invoiceData,
+    setInvoiceData,
+    handleFilterBy,
+    filterBy,
+    setFilterBy,
+    displayInvoice,
+    setDisplayInvoice,
+  } = useGlobalContext();
+  useEffect(() => {
+    if (filterBy !== "" && filterBy !== "all") {
+      console.log(`filter by has been changed to ${filterBy}`);
+      const newInvoice = invoiceData.filter(
+        (invoice) => invoice.status.toLowerCase() === filterBy
+      );
+      console.log(newInvoice);
+      setDisplayInvoice(newInvoice);
+
+      // setInvoiceData(newInvoice);
+    } else {
+      setDisplayInvoice(invoiceData);
+    }
+  }, [filterBy]);
   return (
     <header>
       <div className="invoice-info-1">
+        {/* {console.log(filterBy)} */}
         <h2 className="invoice">invoices</h2>
         <p className="total-invoice">
-          <span className="">there are 7 total</span>
+          <span className="">{`there are ${displayInvoice.length} total`}</span>
           <span className="num">7</span> invoices
         </p>
       </div>
       <div className="invoice-info-2">
         <div className="filter">
-          <select className="select" name="filter" id="filter">
+          <select
+            className="select"
+            name="filter"
+            id="filter"
+            onChange={handleFilterBy}
+          >
             <option value="">
               Filter <span className="filter-by">by status</span>
             </option>
+            <option value="All">All Invoices</option>
             <option value="Pending">pending</option>
             <option value="Draft">draft</option>
-            <option onClick={() => console.log("paid")} value="Paid">
-              paid
-            </option>
+            <option value="Paid">paid</option>
           </select>
         </div>
         <Link
