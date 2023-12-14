@@ -1,49 +1,161 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useState,
+  useEffect,
+} from "react";
 import { jsonData } from "./data";
 import reducer from "./redcuer";
+import { redirect, useNavigate } from "react-router-dom";
 import { useFieldArray, useForm } from "react-hook-form";
-const AppContext = createContext();
+import { calculateDueDate, generateUniqueId, isEmpty } from "./utils";
+const countryAPI = `https://restcountries.com/v3.1/name/`;
 
+const AppContext = createContext();
+const setLocalStorage = (invoice, data) => {
+  localStorage.setItem(data, JSON.stringify(invoice));
+};
+
+const defaultInvoiceList = JSON.parse(
+  localStorage.getItem("invoice") || `${JSON.stringify(jsonData)}`
+);
+const defaultSingleInvoiceList = JSON.parse(
+  localStorage.getItem("singleInvoice") || "{}"
+);
 const AppProvider = ({ children }) => {
-  const initialState = {
-    invoiceData: [...jsonData],
-  };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [invoiceData, setInvoiceData] = useState(defaultInvoiceList);
+  const [displayInvoice, setDisplayInvoice] = useState(invoiceData);
+  const [singleInvoice, setSingleInvoice] = useState(defaultSingleInvoiceList);
+  const [showModal, setShowModal] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+
   const {
     register,
     control,
     handleSubmit,
     formState,
     getValues,
+    setError,
     setValue,
     watch,
     reset,
   } = useForm();
-  const { errors } = formState;
+  const { errors, isSubmitSuccessful } = formState;
   const { remove, fields, insert } = useFieldArray({
     name: "items",
     control,
   });
+  const [editingID, setEditingID] = useState(null);
+  const fetchCountrySymbol = async (country) => {
+    try {
+      const response = await fetch(`${countryAPI}${country}`);
+      const data = await response.json();
+      // console.log(data);
+      const currencies = data[0]?.currencies;
+      const curr = Object.keys(currencies)[0];
+      const { symbol } = currencies[curr];
+      // console.log(symbol);
+      return symbol;
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
   const onSubmit = (data) => {
     const itemsArray = watch("items");
+    // let newInvoice;
     if (itemsArray.length === 0) {
       console.log("items must be placed");
       return;
     }
+    // When you are editing an invoice
+    if (editingID !== null) {
+      const updatedInvoice = invoiceData.map((invoice) => {
+        if (invoice.id === editingID) {
+          console.log(data);
+          return {
+            ...data,
+            total: data.items
+              .map((item) => item.total)
+              .reduce((a, b) => a + b, 0),
+            status: "pending",
+          };
+        } else {
+          return invoice;
+        }
+      });
+      setInvoiceData(updatedInvoice);
+      setLocalStorage(updatedInvoice, "invoice");
+      setEditingID(null);
+    } else {
+      //When you are creating a new invoice
+      const newInvoice = {
+        id: generateUniqueId(invoiceData),
+        status: "pending",
+
+        ...data,
+        total: data.items.map((item) => item.total).reduce((a, b) => a + b, 0),
+      };
+      const newInvoiceArray = [...invoiceData, newInvoice];
+      setInvoiceData(newInvoiceArray);
+      setLocalStorage(newInvoiceArray, "invoice");
+    }
+
+    reset();
     console.log(data);
   };
+
   //function to handle save to drafts
   const saveAsDraft = (data) => {
-    const enteredClientName = watch("clientName");
+    const enteredClientName = getValues("clientName");
+    const itemsInInvoice = watch("items");
+
     if (enteredClientName) {
-      console.log(getValues());
+      // console.log(getValues());
     } else {
       alert("Please fill out the Name field before saving to drafts.");
     }
-  };
-  //function to handle save to drafts
-  const resetField = () => {
-    reset();
+
+    console.log(editingID);
+    if (editingID !== null) {
+      console.log("yes");
+      console.log({
+        ...getValues(),
+        total: itemsInInvoice
+          .map((item) => item.total)
+          .reduce((a, b) => a + b, 0),
+      });
+
+      const updatedInvoice = invoiceData.map((invoice) =>
+        invoice.id === editingID
+          ? {
+              ...invoice,
+              ...getValues(),
+              total: itemsInInvoice
+                .map((item) => item.total)
+                .reduce((a, b) => a + b, 0),
+              status: "pending",
+            }
+          : invoice
+      );
+      console.log(updatedInvoice);
+      setInvoiceData(updatedInvoice);
+      setLocalStorage(updatedInvoice, "invoice");
+    } else {
+      console.log("new draft created");
+      const newDraftInvoice = {
+        id: generateUniqueId(invoiceData),
+        status: "draft",
+        ...getValues(),
+        total: itemsInInvoice
+          ? itemsInInvoice.map((item) => item.total).reduce((a, b) => a + b, 0)
+          : 0,
+      };
+      const newInvoiceData = [...invoiceData, newDraftInvoice];
+      setInvoiceData(newInvoiceData);
+      setLocalStorage(newInvoiceData, "invoice");
+    }
+    // setEditingID(null);
   };
   //function to handle price change and update total dynamically
   const handlePriceChange = (index, value) => {
@@ -61,10 +173,68 @@ const AppProvider = ({ children }) => {
       setValue(`items.${index}.total`, value * price);
     }
   };
+
+  const getSingleInvoice = (id) => {
+    const singleId = invoiceData.find((invoice) => invoice.id === id);
+    setSingleInvoice(singleId);
+    setLocalStorage(singleId, "singleInvoice");
+  };
+
+  // const editInvoice = (id) => {
+
+  //   Object.entries(singleInvoice).forEach(([key, value]) => {
+  //     setValue(key, value);
+  //   });
+  // };
+
+  const editInvoice = (id) => {
+    const invoiceToEdit = invoiceData.find((invoice) => invoice.id === id);
+    if (invoiceToEdit) {
+      setEditingID(id);
+      Object.entries(invoiceToEdit).forEach(([key, value]) =>
+        setValue(key, value)
+      );
+    }
+  };
+  useEffect(() => {
+    if (editingID === null) {
+      reset();
+    }
+  }, [editingID, reset]);
+
+  const markAsPaid = (id) => {
+    setSingleInvoice({ ...singleInvoice, status: "paid" });
+    console.log(singleInvoice);
+    const updatedInvoice = invoiceData.map((invoice) => {
+      if (invoice.id === id) {
+        // console.log(singleInvoice);
+        return { ...invoice, status: "paid" };
+      } else return invoice;
+    });
+    setInvoiceData(updatedInvoice);
+    setLocalStorage(updatedInvoice, "invoice");
+  };
+  const deleteInvoice = (id) => {
+    const updatedInvoice = invoiceData.filter((invoice) => invoice.id !== id);
+    setInvoiceData(updatedInvoice);
+    setLocalStorage(updatedInvoice, "invoice");
+    // setDeleted(true);
+    setEditingID("");
+    // setSingleInvoice({});
+  };
+  const [filterBy, setFilterBy] = useState("");
+  const handleFilterBy = (e) => {
+    setFilterBy(e.target.value.toLowerCase());
+    // console.log(filterBy);
+  };
   return (
     <AppContext.Provider
       value={{
-        ...state,
+        invoiceData,
+        setInvoiceData,
+        handleFilterBy,
+        filterBy,
+        setFilterBy,
         register,
         control,
         handleSubmit,
@@ -78,9 +248,26 @@ const AppProvider = ({ children }) => {
         watch,
         onSubmit,
         errors,
+        setError,
         handlePriceChange,
         handleQuantityChange,
-        resetField,
+        // resetField,
+        getSingleInvoice,
+        singleInvoice,
+        editingID,
+        setEditingID,
+        fetchCountrySymbol,
+        editInvoice,
+        markAsPaid,
+        showModal,
+        setShowModal,
+        deleteInvoice,
+        deleted,
+        setDeleted,
+        isSubmitSuccessful,
+        reset,
+        displayInvoice,
+        setDisplayInvoice,
       }}
     >
       {children}

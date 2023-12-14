@@ -1,5 +1,7 @@
 import React from "react";
+// import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../Context";
 
 const InvoiceCard = ({
   id,
@@ -9,16 +11,23 @@ const InvoiceCard = ({
   status,
   backgroundColor,
   color,
+  total,
 }) => {
+  const { getSingleInvoice } = useGlobalContext();
+
   return (
-   
+    <Link
+      className="router-link"
+      to={`/singleInvoice/${id}`}
+      onClick={() => getSingleInvoice(id)}
+    >
       <article className="invoice-card">
         <div className="invoice-text-bold id">
           <span>{id}</span>
         </div>
         <div className="invoice-text-light">Due {paymentDue}</div>
         <div className="invoice-text-light name">{clientName}</div>
-        <div className="invoice-text-bold">$ {items[0].price}</div>
+        <div className="invoice-text-bold">{total}</div>
         <div
           className="invoice-status-container"
           style={{ backgroundColor: backgroundColor, color: color }}
@@ -38,7 +47,7 @@ const InvoiceCard = ({
           </svg>
         </span>
       </article>
-  
+    </Link>
   );
 };
 

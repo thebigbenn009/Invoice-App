@@ -7,6 +7,10 @@ import HomeLayout from "./pages/HomeLayout";
 import LandingPage from "./pages/LandingPage";
 import CreateNewInvoice from "./pages/CreateNewInvoice";
 import ErrorPage from "./pages/ErrorPage";
+import SingleInvoice from "./components/SingleInvoice";
+import EditInvoice from "./components/EditInvoice";
+import { loader as singleInvoiceLoader } from "./components/SingleInvoice";
+import { loader as editInvoiceLoader } from "./components/EditInvoice";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +25,18 @@ const router = createBrowserRouter([
       {
         element: <CreateNewInvoice />,
         path: "newInvoice",
+      },
+      {
+        element: <SingleInvoice />,
+        path: "singleInvoice/:id",
+        errorElement: <ErrorPage />,
+        loader: singleInvoiceLoader,
+      },
+      {
+        element: <EditInvoice />,
+        path: "editInvoice/:id",
+        errorElement: <ErrorPage />,
+        loader: editInvoiceLoader,
       },
     ],
   },

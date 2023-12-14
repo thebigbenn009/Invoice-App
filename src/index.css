@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=Montserrat:wght@200;400;600;700;800&family=Nunito+Sans:ital,wght@0,200;0,300;0,600;1,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&family=League+Spartan:wght@400;500;700&family=Montserrat:wght@200;400;600;700;800&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,600;1,6..12,400&family=Poppins:ital,wght@0,400;0,700;0,800;1,300;1,700;1,800&display=swap");
+
 *,
 *::before,
 *::after {
@@ -34,6 +35,7 @@ a {
 html {
   font-size: 62.5%;
   font-family: "Lato", sans-serif;
+  font-family: "League Spartan", sans-serif;
   font-family: "Montserrat", sans-serif;
   font-family: "Nunito Sans", sans-serif;
   font-family: "Poppins", sans-serif;
@@ -49,7 +51,11 @@ html {
   margin-inline: auto; */
   color: var(--white);
 }
-
+body {
+  background-color: var(--deep-blue-1);
+  line-height: 1.7;
+  position: relative;
+}
 .main-section {
   width: 100%;
   background-color: var(--deep-blue-1);
@@ -91,7 +97,8 @@ header {
   gap: 3rem;
   align-items: center;
 }
-
+.select {
+}
 .btn {
   /* padding: 1.5rem; */
   font-family: inherit;
@@ -99,8 +106,8 @@ header {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.8rem 1.5rem;
-  padding-left: 0.7rem;
+  padding: 0.9rem 1.8rem;
+  /* padding-left: 0.7rem; */
   align-self: center;
   border-radius: 1000rem;
   cursor: pointer;
@@ -118,6 +125,7 @@ header {
 .invoice-btn {
   color: var(--white);
   background-color: var(--primary-purple);
+  padding-inline: 1.2rem;
 }
 
 .btn-svg {
@@ -147,13 +155,13 @@ header {
   text-align: center;
 }
 .select option {
-  background-color: var(--deep-blue);
+  background-color: var(--deep-blue-1);
   text-transform: capitalize;
 
   padding: 5px;
 }
 select option :active {
-  background-color: var(--deep-blue);
+  background-color: var(--deep-blue-1);
 }
 .select:focus {
   outline: none;
@@ -197,7 +205,7 @@ select option :active {
   /* display: flex; */
   /* align-items: center;
   justify-self: flex-start; */
-  text-align: center;
+  text-align: left;
 
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -352,6 +360,174 @@ select {
   background-color: var(--primary-purple);
   color: var(--white);
 }
+.btn-info-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: end;
+}
+.router-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+.router-link span {
+  font-size: 1.2rem;
+}
+.router-link span:not(:last-child) {
+  margin-right: 1rem;
+}
+/* ///////////////////////SINGLE INVOICE////////////// */
+.single-invoice {
+  width: 45vw;
+  margin-inline: auto;
+  /* background-color: goldenrod; */
+  padding-top: 4rem;
+  font-size: 1.3rem;
+  color: var(--grey-1);
+}
+.info-bar {
+  display: grid;
+  margin-top: 2rem;
+  grid-template-columns: 1fr 1fr;
+  padding: 1.2rem 1.8rem;
+  border-radius: 5px;
+  background-color: var(--purple-1);
+  margin-bottom: 2rem;
+}
+.status-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.single-info-status {
+  display: inline-block;
+  width: 40%;
+}
+.invoice-details {
+  background-color: var(--purple-1);
+  padding: 3rem 4rem;
+  border-radius: 5px;
+}
+.details-primary {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+.primary-1 p {
+  display: inline-block;
+}
+.primary-1 {
+  flex-wrap: wrap;
+}
+.primary-2,
+.primary-1 {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-end; */
+}
+.primary-2 p {
+  display: inline-block;
+  text-align: right;
+}
+.details-secondary {
+  display: flex;
+  justify-content: space-between;
+  /* width: 54rem; */
+  margin-bottom: 3rem;
+  /* background-color: orangered; */
+}
+.details-bold {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+.mb-2 {
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+.mb-3 {
+  margin-bottom: 2rem;
+  text-transform: capitalize;
+}
+.details-tertiary {
+  padding: 3rem;
+  background-color: var(--purple-3);
+  border-radius: 5px;
+}
+.item-details {
+  display: grid;
+  grid-template-columns: 1fr 5rem 0.5fr 0.5fr;
+  gap: 1rem;
+}
+.text-right {
+  display: inline-block;
+  text-align: right;
+}
+.text-center {
+  display: inline-block;
+  text-align: center;
+}
+.grey-1 {
+  color: var(--grey-1);
+}
+.total-price {
+  padding: 2.5rem;
+  background-color: var(--deep-blue-3);
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  display: flex;
+  justify-content: space-between;
+}
+.total-price p {
+  align-self: center;
+}
+.total-amount {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #fff;
+}
+.overlay {
+  display: grid;
+  position: fixed;
+  place-items: center;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  /* background-color: red; */
+  z-index: 1;
+}
+.modal {
+  background-color: white;
+  padding: 3rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--purple-1);
+  z-index: 2;
+  transition: opacity 0.3s ease-in-out;
+  width: 48rem;
+}
+.modal h3 {
+  margin-bottom: 2rem;
+}
+.modal p {
+  margin-bottom: 1rem;
+}
+.modal-btn-container {
+  display: flex;
+  justify-content: end;
+  gap: 1.5rem;
+}
+.modal-btn-container * {
+  color: #fff;
+}
+.btn-delete {
+  background-color: var(--error);
+}
+.btn-cancel {
+  background-color: var(--purple-3);
+}
 /* //////////////MEDIA QUERIES //////////////////////////////////////// */
 @media (max-width: 1024px) {
   html {
@@ -369,6 +545,7 @@ select {
     grid-template-columns: 1fr;
     grid-template-rows: 6rem 1fr;
     margin-top: 0;
+    position: relative;
   }
   .sidebar {
     width: 100%;
@@ -396,15 +573,47 @@ select {
   .btn-others {
     grid-template-columns: 1fr;
   }
+  .single-invoice {
+    width: 50vw;
+  }
+  .info-bar {
+    grid-template-columns: 1fr;
+  }
+  .info-buttons {
+    display: grid;
+    gap: 2rem;
+  }
+  .btn-info-container {
+    gap: 2rem;
+  }
+  .single-info-status {
+    width: 25%;
+  }
 }
-@media (min-width: 769px) and (max-width: 1024px) {
-  .main-section {
-    /* padding: 0; */
+@media (max-width: 769px) {
+  .info-bar {
+    gap: 1rem;
+  }
+  .info-buttons {
+  }
+  .btn-info-container {
+  }
+
+  .status-bar {
+    justify-content: space-between;
+  }
+
+  .details-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .secondary-2 {
+    justify-self: end;
   }
 }
 @media (max-width: 600px) {
   html {
-    font-size: 45%;
+    font-size: 48%;
   }
 
   .invoice-card {
@@ -481,5 +690,87 @@ select {
   }
   .bin {
     grid-column: 7/9;
+  }
+  .single-invoice {
+    width: 70vw;
+  }
+  .info-bar {
+    padding: 0.8rem 1.4rem;
+  }
+  .invoice-status-container {
+    width: 50%;
+  }
+  .invoice-details {
+    /* padding: 2rem 3rem; */
+  }
+  .btn-info-container {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    gap: 1rem;
+  }
+  .status-bar {
+    margin-bottom: 1rem;
+  }
+  .status-bar span {
+    font-size: 1.6rem;
+  }
+  .router-link .btn {
+    display: block;
+    /* padding: 2rem; */
+  }
+  .btn-info-container :nth-child(1) {
+    /* grid-column: 1/-1; */
+    width: 100%;
+  }
+  /* .btn-info-container :nth-child(3) {
+    grid-column: 1/-1;
+  } */
+  .info-bar {
+    margin-inline: -3rem;
+    padding: 2rem;
+  }
+  .btn-info-container :nth-child(2) {
+    grid-row: 3/4;
+    grid-column: 1/-1;
+  }
+  .invoice-details {
+    margin-inline: -3rem;
+    padding: 2rem;
+  }
+  .details-secondary {
+    grid-template-columns: 1fr;
+  }
+  .secondary-2 {
+    justify-self: start;
+    margin-bottom: 2rem;
+  }
+  .secondary-3 div p {
+    margin-bottom: 0;
+  }
+  .details-tertiary {
+    /* margin-inline: -4rem;
+    padding: 2rem; */
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 0.5fr 1fr;
+  }
+  .item-details {
+    grid-template-columns: 1fr;
+    /* justify-items: center; */
+    place-items: center;
+  }
+  .item-details > p {
+    text-align: left;
+    /* display: block; */
+  }
+  .item-details:not(:last-child) {
+    justify-items: start;
+  }
+  .item-details:last-child > * {
+    justify-items: start;
+    margin-bottom: 0;
+    /* align-items: center;
+    color: red; */
   }
 }

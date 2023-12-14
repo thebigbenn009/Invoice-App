@@ -18,7 +18,7 @@ export const jsonData = [
       street: "106 Kendell Street",
       city: "Sharrington",
       postCode: "NR24 5WQ",
-      country: "United Kingdom",
+      country: "United States",
     },
     items: [
       {

@@ -1,15 +1,16 @@
+import axios from "axios";
 export const calculateTotal = (state) => {
   const total = state.inputData.items
     .map((item) => item.total)
     .reduce((a, b) => a + b, 0);
   return total;
 };
-export function getCurrentDate() {
-  const currentDate = new Date();
+export function getCurrentDate(date) {
+  // const currentDate = new Date();
 
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
-  const day = currentDate.getDate().toString().padStart(2, "0");
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+  const day = date.getDate().toString().padStart(2, "0");
 
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
@@ -66,16 +67,16 @@ export const calculateDueDate = (paymentTerm) => {
   const currentDate = new Date();
   let dueDate = new Date(currentDate);
   switch (paymentTerm) {
-    case "1 day":
+    case "1":
       dueDate.setDate(currentDate.getDate() + 1);
       break;
-    case "1 week":
+    case "7":
       dueDate.setDate(currentDate.getDate() + 7);
       break;
-    case "2 weeks":
+    case "14":
       dueDate.setDate(currentDate.getDate() + 14);
       break;
-    case "1 month":
+    case "30":
       dueDate.setMonth(currentDate.getMonth() + 1); // Add 1 month
       break;
     default:
@@ -84,7 +85,7 @@ export const calculateDueDate = (paymentTerm) => {
   const formattedDate = getCurrentDate(dueDate);
   return formattedDate;
 };
-console.log(calculateDueDate("2 weeks"));
+// console.log(calculateDueDate("7"));
 
 // Function to check if any value in an object is empty
 export const hasEmptyValues = (obj) => {
@@ -123,4 +124,31 @@ export const generateUniqueId = (invoiceData) => {
     return id;
   };
   return generateId();
+};
+
+export const getCurrency = async (countryName) => {
+  try {
+    const { data } = await axios.get(
+      `https://restcountries.com/v3.1/name/${countryName}`
+    );
+
+    const countryData = data[0];
+    console.log(countryData.currencies);
+    const currency = Object.keys(countryData.currencies)[0];
+    // console.log(currency);
+    const { symbol } = countryData.currencies[currency];
+    // console.log(symbol);
+  } catch (error) {
+    console.error("Error fetching currency", error);
+    return null;
+  }
+};
+export const isEmpty = (obj) => {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
 };
