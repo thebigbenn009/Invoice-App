@@ -1,0 +1,442 @@
+Hey chatgpt, i am building a task management using react- useContext, useState, and useEffect. 
+
+A JSON file was provided for this project that contains the required data. The data comprises an array of objects with multiple nested objects and arrays as well. 
+
+
+Each array consists of a ‘board’ object. This board object consist of an array of columns that separates the tasks based on their status, such as “Todo,” “Doing,” and “Done.”
+
+Each column consist of an array of tasks, where each tasks could also have an array of subtasks. 
+
+To make things easy, i created a state variable named boardToBeDisplayed. When the user clicks on a board, the boardToBeDisplayed object is set to that particular object, where i can tell use the information to create my UI. 
+Here is a sample of the boardToBeDisplayedObejct: 
+  {
+      "name": "Platform Launch",
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": [
+            {
+              "title": "Build UI for onboarding flow",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Sign up page",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Welcome page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Build UI for search",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Search page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Build settings UI",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Account page",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Billing page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "QA and test all major user journeys",
+              "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Internal testing",
+                  "isCompleted": false
+                },
+                {
+                  "title": "External testing",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Doing",
+          "tasks": [
+            {
+              "title": "Design settings and search pages",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Settings - Account page",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Settings - Billing page",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Search page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Add account management endpoints",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Upgrade plan",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Cancel plan",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Update payment method",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Design onboarding flow",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Sign up page",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Welcome page",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Add search enpoints",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Add search endpoint",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Define search filters",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Add authentication endpoints",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Define user model",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Add auth endpoints",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Research pricing points of various competitors and trial different business models",
+              "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Research competitor pricing and business models",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Outline a business model that works for our solution",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Done",
+          "tasks": [
+            {
+              "title": "Conduct 5 wireframe tests",
+              "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Complete 5 wireframe prototype tests",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Create wireframe prototype",
+              "description": "Create a greyscale clickable wireframe prototype to test our asssumptions so far.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Create clickable wireframe prototype in Balsamiq",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Review results of usability tests and iterate",
+              "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Meet to review notes from previous tests and plan changes",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Make changes to paper prototypes",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Conduct 5 usability tests",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+              "description": "",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Create paper prototypes for version one",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Complete 10 usability tests",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Market discovery",
+              "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Interview 10 prospective customers",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Competitor analysis",
+              "description": "",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Find direct and indirect competitors",
+                  "isCompleted": true
+                },
+                {
+                  "title": "SWOT analysis for each competitor",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Research the market",
+              "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Write up research analysis",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Calculate TAM",
+                  "isCompleted": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+
+Taking it a step further, when the user clicks on a task on the boardToBeDisplayed object on the UI, i created another state variable named “taskToBeDisplayed”, whose data is set to the object that contains the tasks, as well as the subtasks the user has clicked. 
+Here is a sample of taskToBeDisplayed: 
+  {
+              "title": "Build UI for onboarding flow",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Sign up page",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Sign in page",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Welcome page",
+                  "isCompleted": false
+                }
+              ]
+            },
+
+
+
+The issue arises when i need to change the status of the task from one status to another, say, from “Doing” to “Done”
+
+In the taskToBeDisplayed object, there is a property named “status” which should correspond to the name of the column. 
+The idea is all the tasks with the status “Doing” should be in the “Doing” column, and the same should be applied to the ToDo and Done, in that manner. 
+
+
+What i want is for the status of the taskToBeDisplayed to be updated (which i think i did in the code below) but also for the task to be moved to the appropriate column when the user changes the status of the task. 
+
+Here’s my component i am currently working on: 
+import React, { useEffect, useRef, useState } from "react";
+import { useGlobalContext } from "../../context";
+import ModalWrapper from "../modal/ModalWrapper";
+import CloseModal from "../modal/CloseModal";
+import Subtask from "./Subtask";
+import NumCompletedSubtasks from "./NumCompletedSubtasks";
+import TaskStatus from "./TaskStatus";
+
+
+const ViewTask = () => {
+  const {
+    viewTaskModal,
+    closeViewTaskModal,
+    taskToBeDisplayed,
+    setTaskToBeDisplayed,
+    boardToBeDisplayed,
+    setBoardToBeDisplayed,
+  } = useGlobalContext();
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const { title, description, status, subtasks } = taskToBeDisplayed;
+  const [initialStatus, setInitialStatus] = useState(status);
+
+
+  const [currentStatus, setCurrentStatus] = useState(status);
+  //   console.log(taskToBeDisplayed);
+  const onCurrentStatus = (title) => {
+    setCurrentStatus(title);
+    setTaskToBeDisplayed((prevTask) => {
+      const updatedTask = { ...prevTask, status: title };
+      return updatedTask;
+    });
+  };
+  useEffect(() => {
+    const updatedBoard = {
+      ...boardToBeDisplayed,
+      columns: boardToBeDisplayed.columns.map((column) => ({
+        ...column,
+        tasks: column.tasks.map((task) => {
+          if (task.title === title) {
+            return taskToBeDisplayed;
+          } else return task;
+        }),
+      })),
+    };
+
+
+    setBoardToBeDisplayed(updatedBoard);
+  }, [title, taskToBeDisplayed]);
+
+
+  return (
+    viewTaskModal && (
+      <ModalWrapper modal={viewTaskModal}>
+        <CloseModal modalToCLose={closeViewTaskModal} />
+        <form className={`form-modal ${viewTaskModal ? "active" : ""}`}>
+          <div className="title-header">
+            <h3>{title}</h3>
+            <span className="menu-bar">
+              <svg width="5" height="20" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#828FA3" fill-rule="evenodd">
+                  <circle cx="2.308" cy="2.308" r="2.308" />
+                  <circle cx="2.308" cy="10" r="2.308" />
+                  <circle cx="2.308" cy="17.692" r="2.308" />
+                </g>
+              </svg>
+            </span>
+          </div>
+          <p className="description">{description}</p>
+          <div className="subtasks">
+            <NumCompletedSubtasks subtasks={subtasks} />
+            {subtasks.map((subtask) => {
+              return (
+                <Subtask
+                  key={subtask.title}
+                  title={subtask.title}
+                  isCompleted={subtask.isCompleted}
+                />
+              );
+            })}
+          </div>
+          <div className="task-status">
+            <p>Current status</p>
+            <div className="dropdown">
+              <div
+                className="dropdown-value"
+                onClick={() => setOpenDropdown(!openDropdown)}
+              >
+                {status}
+              </div>
+              <ul className={`ul ${openDropdown && "ul-active"}`}>
+                {boardToBeDisplayed.columns.map((column) => {
+                  return (
+                    <TaskStatus
+                      key={column.name}
+                      status={column.name}
+                      onCurrentStatus={() => onCurrentStatus(column.name)}
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </form>
+      </ModalWrapper>
+    )
+  );
+};
+
+
+export default ViewTask;
+
+
+
